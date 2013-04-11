@@ -22,6 +22,10 @@ public class MakeLeather extends Node {
             return;
         }
 
+        while (Inventory.contains(1743) && Const.TIMER.isRunning()) {
+            Task.sleep(50);
+        }
+
         if (Widgets.get(1371).validate()) {
             if (Widgets.get(1371, 44).getChild(Variables.i.getWIDGET_ID()).getTextureId() == -1)
                 Widgets.get(1371, 44).getChild(Variables.i.getWIDGET_ID()).click(true);
@@ -30,9 +34,6 @@ public class MakeLeather extends Node {
                     Widgets.get(1370, 20).interact("Make")) {
                 Task.sleep(2000, 3000);
                 Bank.getNearest().hover();
-                while (Inventory.contains(1743) && Const.TIMER.isRunning()) {
-                    Task.sleep(50);
-                }
             }
         } else if (Widgets.get(1179).validate()) {
             Methods.s("Opening Craft Menu");
