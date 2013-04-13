@@ -23,8 +23,9 @@ public class Loop extends LoopTask {
         if (Inventory.getCount(440) > 0) {
             Methods.s("Dropping Iron");
             while (SceneEntities.getAt(3175, 3368).getId() == 11557 && SceneEntities.getAt(3175, 3366).getId() == 11556
-                    && Inventory.getCount(440) > 1 && Widgets.get(137, 56).getTextColor() != 0x0000FF)
+                    && Inventory.getCount(440) > 1 && Widgets.get(137, 56).getTextColor() != 0x0000FF) {
                 Keyboard.sendText("2", false);
+            }
             return Random.nextInt(5000, 7501);
         }
         return 1000;

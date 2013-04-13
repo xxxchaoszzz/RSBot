@@ -29,14 +29,15 @@ public class Mine extends Node {
                 default:
                     Task.sleep(10);
             }
-        } else if (SceneEntities.getAt(3175, 3368).getId() == 11956 && SceneEntities.getAt(3175, 3366).getId() == 11556)
+        } else if (SceneEntities.getAt(3175, 3368).getId() == 11956 && SceneEntities.getAt(3175, 3366).getId() == 11556) {
             Methods.mineRock(1);
-        else if (SceneEntities.getAt(3175, 3368).getId() == 11557 && SceneEntities.getAt(3175, 3366).getId() == 11955)
-            Methods.mineRock(0);
-        else {
+        } else if (SceneEntities.getAt(3175, 3368).getId() != 11557 || SceneEntities.getAt(3175, 3366).getId() != 11955) {
             Methods.s("Waiting for Iron");
-            while (SceneEntities.getAt(3175, 3368).getId() == 11557 && SceneEntities.getAt(3175, 3366).getId() == 11556)
+            while (SceneEntities.getAt(3175, 3368).getId() == 11557 && SceneEntities.getAt(3175, 3366).getId() == 11556) {
                 Task.sleep(10);
+            }
+        } else {
+            Methods.mineRock(0);
         }
     }
 }

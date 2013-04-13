@@ -48,7 +48,7 @@ public class hideCraft extends ActiveScript implements PaintListener,
             if (Game.getClientState() != Game.INDEX_MAP_LOADED) {
                 return 2500;
             }
-            if (!client.equals(Context.client())) {
+            if (client != Context.client()) {
                 WidgetCache.purge();
                 Context.get().getEventManager().addListener(this);
                 client = Context.client();

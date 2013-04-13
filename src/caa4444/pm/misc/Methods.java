@@ -8,18 +8,18 @@ import org.powerbot.game.bot.Context;
 
 public class Methods {
 
-    public static void stopScript(final String s) {
+    public static void stopScript(String s) {
         s(s);
         Context.get().getScriptHandler().shutdown();
     }
 
-    public static void s(final String s) {
+    public static void s(String s) {
         Variables.status = s;
         System.out.println(String.format("[Pumping Iron] %s", s));
     }
 
-    public static int getPerHour(final int base, final long time) {
-        return (int) ((base) * 3600000D / (System.currentTimeMillis() - time));
+    public static int getPerHour(int base, long time) {
+        return (int) (base * 3600000D / (System.currentTimeMillis() - time));
     }
 
     public static void mineRock(int i) {
@@ -46,18 +46,22 @@ public class Methods {
         Timer wait;
         switch (i) {
             case 1:
-                while (SceneEntities.getAt(3175, 3368).getId() == 11956 && Players.getLocal().isIdle())
+                while (SceneEntities.getAt(3175, 3368).getId() == 11956 && Players.getLocal().isIdle()) {
                     Task.sleep(50);
+                }
                 wait = new Timer(2000);
-                while (SceneEntities.getAt(3175, 3368).getId() == 11956 && !Players.getLocal().isIdle() && wait.isRunning())
+                while (SceneEntities.getAt(3175, 3368).getId() == 11956 && !Players.getLocal().isIdle() && wait.isRunning()) {
                     Task.sleep(50);
+                }
                 break;
             case 0:
-                while (SceneEntities.getAt(3175, 3366).getId() == 11955 && Players.getLocal().isIdle())
+                while (SceneEntities.getAt(3175, 3366).getId() == 11955 && Players.getLocal().isIdle()) {
                     Task.sleep(50);
+                }
                 wait = new Timer(2000);
-                while (SceneEntities.getAt(3175, 3366).getId() == 11955 && !Players.getLocal().isIdle() && wait.isRunning())
+                while (SceneEntities.getAt(3175, 3366).getId() == 11955 && !Players.getLocal().isIdle() && wait.isRunning()) {
                     Task.sleep(50);
+                }
                 break;
         }
     }
