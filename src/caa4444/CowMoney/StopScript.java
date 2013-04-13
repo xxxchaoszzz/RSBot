@@ -1,7 +1,7 @@
-package caa4444.CowMoney;
+package caa4444.cowmoney;
 
-import caa4444.CowMoney.misc.Methods;
-import caa4444.CowMoney.misc.Variables;
+import caa4444.cowmoney.misc.Methods;
+import caa4444.cowmoney.misc.Variables;
 import org.powerbot.core.script.job.LoopTask;
 import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.Widgets;

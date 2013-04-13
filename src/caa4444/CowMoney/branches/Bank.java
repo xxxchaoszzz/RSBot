@@ -1,4 +1,4 @@
-package caa4444.CowMoney.branches;
+package caa4444.cowmoney.branches;
 
 import org.powerbot.core.script.job.state.Branch;
 import org.powerbot.core.script.job.state.Node;

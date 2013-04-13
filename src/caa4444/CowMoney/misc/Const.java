@@ -1,4 +1,4 @@
-package caa4444.CowMoney.misc;
+package caa4444.cowmoney.misc;
 
 import org.powerbot.game.api.util.Timer;
 import org.powerbot.game.api.wrappers.Area;
