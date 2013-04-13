@@ -1,15 +1,11 @@
 package caa4444.pm.nodes;
 
-import caa4444.pm.misc.Const;
 import caa4444.pm.misc.Methods;
 import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.node.SceneEntities;
-import org.powerbot.game.api.util.Filter;
-import org.powerbot.game.api.util.Timer;
-import org.powerbot.game.api.wrappers.Tile;
-import org.powerbot.game.api.wrappers.node.SceneObject;
+import org.powerbot.game.api.util.Random;
 
 public class Mine extends Node {
 
@@ -21,32 +17,26 @@ public class Mine extends Node {
 
     @Override
     public void execute() {
-        final SceneObject rockToMine = SceneEntities.getNearest(new Filter<SceneObject>() {
-            @Override
-            public boolean accept(SceneObject sceneObject) {
-                for (int i : Const.ironRocks) if (sceneObject.getId() == i) return true;
-                return false;
+
+        if (SceneEntities.getAt(3175, 3368).getId() == 11956 && SceneEntities.getAt(3175, 3366).getId() == 11955) {
+            switch (Random.nextInt(1, 3) % 2) {
+                case 1:
+                    Methods.mineRock(1);
+                    break;
+                case 0:
+                    Methods.mineRock(0);
+                    break;
+                default:
+                    Task.sleep(10);
             }
-        });
-        final Tile rockLoc = rockToMine.getLocation();
-        final SceneObject rock2 = SceneEntities.getNearest(new Filter<SceneObject>() {
-            @Override
-            public boolean accept(SceneObject sceneObject) {
-                for (int i : Const.ironRocks)
-                    if (sceneObject.getId() == i && !sceneObject.equals(rockToMine)) return true;
-                return false;
-            }
-        });
-        rockToMine.interact("Mine");
-        Task.sleep(400, 500);
-        Methods.s("Waiting for Iron");
-        if (rock2 != null && rock2.getLocation().distance(Players.getLocal().getLocation()) <= 1) rock2.hover();
-        Timer wait = new Timer(2000);
-        while (SceneEntities.getAt(rockLoc).getId() == rockToMine.getId() && Players.getLocal().isIdle() && wait.isRunning())
-            Task.sleep(50);
-        while (SceneEntities.getAt(rockLoc).getId() == rockToMine.getId() && !Players.getLocal().isIdle() && wait.isRunning())
-            Task.sleep(50);
-        if (rock2 != null && rock2.getLocation().distance(Players.getLocal().getLocation()) > 1)
-            rock2.getLocation().getLocation().click(true);
+        } else if (SceneEntities.getAt(3175, 3368).getId() == 11956 && SceneEntities.getAt(3175, 3366).getId() == 11556)
+            Methods.mineRock(1);
+        else if (SceneEntities.getAt(3175, 3368).getId() == 11557 && SceneEntities.getAt(3175, 3366).getId() == 11955)
+            Methods.mineRock(0);
+        else {
+            Methods.s("Waiting for Iron");
+            while (SceneEntities.getAt(3175, 3368).getId() == 11557 && SceneEntities.getAt(3175, 3366).getId() == 11556)
+                Task.sleep(10);
+        }
     }
 }

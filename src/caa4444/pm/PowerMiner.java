@@ -16,7 +16,6 @@ import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
 import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.input.Mouse;
-import org.powerbot.game.api.methods.input.Mouse.Speed;
 import org.powerbot.game.api.methods.tab.Skills;
 import org.powerbot.game.api.methods.widget.WidgetCache;
 import org.powerbot.game.api.util.Time;
@@ -32,7 +31,7 @@ import java.util.ArrayList;
 public class PowerMiner extends ActiveScript implements PaintListener,
         MessageListener {
 
-    public static Tree jobContainer = null;
+    public static Tree jobContainer;
     public static ArrayList<Node> jobs = new ArrayList<Node>();
     static Client client;
     private final RenderingHints antialiasing = new RenderingHints(
@@ -40,7 +39,7 @@ public class PowerMiner extends ActiveScript implements PaintListener,
 
     public void onStart() {
         Task.sleep(100);
-        Mouse.setSpeed(Speed.NORMAL);
+        Mouse.setSpeed(Mouse.Speed.FAST);
         Variables.startTime = System.currentTimeMillis();
         Variables.iron = 0;
         Variables.startingMExperience = Skills.getExperience(Skills.MINING);
@@ -53,13 +52,13 @@ public class PowerMiner extends ActiveScript implements PaintListener,
         if (Game.getClientState() != Game.INDEX_MAP_LOADED) {
             return 2500;
         }
-        if (client != Context.client()) {
+        if (!client.equals(Context.client())) {
             WidgetCache.purge();
             Context.get().getEventManager().addListener(this);
             client = Context.client();
         }
         if (jobContainer != null) {
-            final Node job = jobContainer.state();
+            Node job = jobContainer.state();
             if (job != null) {
                 jobContainer.set(job);
                 getContainer().submit(job);
@@ -75,26 +74,26 @@ public class PowerMiner extends ActiveScript implements PaintListener,
 
     @Override
     public void onRepaint(Graphics g1) {
-        final Point mouse = Mouse.getLocation();
-        final Graphics2D g = (Graphics2D) g1;
-        final Dimension game = Game.getDimensions();
+        Point mouse = Mouse.getLocation();
+        Graphics2D g = (Graphics2D) g1;
+        Dimension game = Game.getDimensions();
         g.setRenderingHints(antialiasing);
 
-        final NumberFormat df = DecimalFormat.getInstance();
-        final int Mgain = Skills.getExperience(Skills.MINING)
+        NumberFormat df = DecimalFormat.getInstance();
+        int Mgain = Skills.getExperience(Skills.MINING)
                 - Variables.startingMExperience;
 
-        final int xpMHourly = Methods.getPerHour(Mgain, Variables.startTime);
-        final long TTL = xpMHourly != 0 ? (long) ((double) Skills.getExperienceToLevel(Skills.MINING, Skills.getLevel(Skills.MINING) + 1) / (double) xpMHourly * 3600000) : 0;
+        int xpMHourly = Methods.getPerHour(Mgain, Variables.startTime);
+        long TTL = xpMHourly != 0 ? (long) ((double) Skills.getExperienceToLevel(Skills.MINING, Skills.getLevel(Skills.MINING) + 1) / (double) xpMHourly * 3600000) : 0;
 
-        final String gainedMExperience = df.format(Mgain);
-        final String xpMHour = df.format(xpMHourly);
+        String gainedMExperience = df.format(Mgain);
+        String xpMHour = df.format(xpMHourly);
 
-        final int ironHour = Methods.getPerHour(Variables.iron,
+        int ironHour = Methods.getPerHour(Variables.iron,
                 Variables.startTime);
 
-        final String iron = df.format(Variables.iron);
-        final String ironHourly = df.format(ironHour);
+        String iron = df.format(Variables.iron);
+        String ironHourly = df.format(ironHour);
 
 
         // -- Fill top bar
@@ -135,7 +134,7 @@ public class PowerMiner extends ActiveScript implements PaintListener,
 
     @Override
     public void messageReceived(MessageEvent msg) {
-        final String m = msg.getMessage();
+        String m = msg.getMessage();
         if (m.toLowerCase().contains("mine some iron")) {
             Variables.iron++;
         }
