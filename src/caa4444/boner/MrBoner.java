@@ -14,7 +14,6 @@ import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
 import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.input.Mouse;
-import org.powerbot.game.api.methods.input.Mouse.Speed;
 import org.powerbot.game.api.methods.tab.Skills;
 import org.powerbot.game.api.methods.widget.WidgetCache;
 import org.powerbot.game.bot.Context;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 public class MrBoner extends ActiveScript implements PaintListener,
         MessageListener {
 
-    public static Tree jobContainer = null;
+    public static Tree jobContainer;
     public static ArrayList<Node> jobs = new ArrayList<Node>();
     static Client client;
     private final RenderingHints antialiasing = new RenderingHints(
@@ -37,7 +36,7 @@ public class MrBoner extends ActiveScript implements PaintListener,
 
     public void onStart() {
         Task.sleep(100);
-        Mouse.setSpeed(Speed.VERY_FAST);
+        Mouse.setSpeed(Mouse.Speed.VERY_FAST);
         Variables.startTime = System.currentTimeMillis();
         getContainer().submit(new Loop());
     }
@@ -53,15 +52,15 @@ public class MrBoner extends ActiveScript implements PaintListener,
             client = Context.client();
         }
         if (jobContainer != null) {
-            final Node job = jobContainer.state();
-            if (job != null) {
-                jobContainer.set(job);
-                getContainer().submit(job);
-                job.join();
+            final Node JOB = jobContainer.state();
+            if (JOB != null) {
+                jobContainer.set(JOB);
+                getContainer().submit(JOB);
+                JOB.join();
             }
         } else {
-            Node[] nodes = {new WalkBones(), new RotateBones(), new GatherBones()};
-            jobs.add(new BoneZ(nodes));
+            final Node[] NODES = {new WalkBones(), new RotateBones(), new GatherBones()};
+            jobs.add(new BoneZ(NODES));
             jobs.add(new BuryBones());
             jobContainer = new Tree(jobs.toArray(new Node[jobs.size()]));
         }
@@ -69,8 +68,8 @@ public class MrBoner extends ActiveScript implements PaintListener,
     }
 
     final NumberFormat DF = DecimalFormat.getInstance();
-    int gain = 0;
-    int xpHourly = 0;
+    int gain;
+    int xpHourly;
     String gainedExperience = "";
     String xpHour = "";
     String boneHour = "";
@@ -112,25 +111,28 @@ public class MrBoner extends ActiveScript implements PaintListener,
                 210, 25);
         // -- Mouse
         g.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
-        int x = mouse.x, y = mouse.y;
-        g.drawLine(x, y - 10, x, y + 10);
-        g.drawLine(x - 10, y, x + 10, y);
+        final int X = mouse.x;
+        final int Y = mouse.y;
+        g.drawLine(X, Y - 10, X, Y + 10);
+        g.drawLine(X - 10, Y, X + 10, Y);
 
         // -- Status and label
         g.setColor(Color.PINK);
         g.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
         g.drawString("Mr. Boner by caa4444", 5, 372);
 
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setColor(Color.BLUE);
-        g2.setFont(new Font("Garamond", Font.PLAIN, 14));
-        g2.drawString("Status: " + Variables.status, 310, 522);
+        final Graphics2D G2 = (Graphics2D) g.create();
+        G2.setColor(Color.BLUE);
+        G2.setFont(new Font("Garamond", Font.PLAIN, 14));
+        G2.drawString("Status: " + Variables.status, 310, 522);
 
     }
 
     @Override
     public void messageReceived(MessageEvent msg) {
-        if (msg.getMessage().contains("bury the bone")) Variables.bonesBuried++;
+        if (msg.getMessage().contains("bury the bone")) {
+            Variables.bonesBuried++;
+        }
     }
 
 }

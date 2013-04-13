@@ -13,7 +13,6 @@ import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
 import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.input.Mouse;
-import org.powerbot.game.api.methods.input.Mouse.Speed;
 import org.powerbot.game.api.methods.widget.WidgetCache;
 import org.powerbot.game.bot.Context;
 import org.powerbot.game.client.Client;
@@ -23,17 +22,19 @@ import java.awt.*;
 @Manifest(authors = {"caa4444"}, name = "Potion Emptier", description = "Empties Potions", version = 1)
 public class potEmpty extends ActiveScript implements PaintListener {
 
-    public static Tree jobContainer = null;
+    public static Tree jobContainer;
     static Client client;
     private final RenderingHints antialiasing = new RenderingHints(
             RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     public void onStart() {
-        GUI gui = new GUI();
-        gui.setVisible(true);
-        while (gui.isVisible()) sleep(100);
+        final GUI GUI = new GUI();
+        GUI.setVisible(true);
+        while (GUI.isVisible()) {
+            sleep(100);
+        }
         Task.sleep(100);
-        Mouse.setSpeed(Speed.VERY_FAST);
+        Mouse.setSpeed(Mouse.Speed.VERY_FAST);
         getContainer().submit(new Loop());
     }
 
@@ -49,11 +50,11 @@ public class potEmpty extends ActiveScript implements PaintListener {
                 client = Context.client();
             }
             if (jobContainer != null) {
-                final Node job = jobContainer.state();
-                if (job != null) {
-                    jobContainer.set(job);
-                    getContainer().submit(job);
-                    job.join();
+                final Node JOB = jobContainer.state();
+                if (JOB != null) {
+                    jobContainer.set(JOB);
+                    getContainer().submit(JOB);
+                    JOB.join();
                 }
             } else {
                 jobContainer = new Tree(new Node[]{new EmptyPots(), new BankStuff()});
@@ -82,19 +83,20 @@ public class potEmpty extends ActiveScript implements PaintListener {
                 210, 12);
         // -- Mouse
         g.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
-        int x = mouse.x, y = mouse.y;
-        g.drawLine(x, y - 10, x, y + 10);
-        g.drawLine(x - 10, y, x + 10, y);
+        final int X = mouse.x;
+        final int Y = mouse.y;
+        g.drawLine(X, Y - 10, X, Y + 10);
+        g.drawLine(X - 10, Y, X + 10, Y);
 
         // -- Status and label
         g.setColor(Color.PINK);
         g.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
         g.drawString("Hard Leather Sweatshop by caa4444", 5, 372);
 
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setColor(Color.BLUE);
-        g2.setFont(new Font("Garamond", Font.PLAIN, 14));
-        g2.drawString("Status: " + Variables.status, 310, 522);
+        final Graphics2D G2 = (Graphics2D) g.create();
+        G2.setColor(Color.BLUE);
+        G2.setFont(new Font("Garamond", Font.PLAIN, 14));
+        G2.drawString("Status: " + Variables.status, 310, 522);
 
     }
 

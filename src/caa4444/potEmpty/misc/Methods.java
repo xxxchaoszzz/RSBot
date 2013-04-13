@@ -15,6 +15,6 @@ public class Methods {
     }
 
     public static int getPerHour(final int base) {
-        return (int) ((base) * 3600000D / Variables.timer.getElapsed());
+        return (int) (base * 3600000D / Variables.timer.getElapsed());
     }
 }

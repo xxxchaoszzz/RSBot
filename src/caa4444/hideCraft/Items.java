@@ -1,4 +1,4 @@
-package caa4444.hideCraft;
+package caa4444.hidecraft;
 
 public enum Items {
     GLOVES(29, 25875, "Gloves"),

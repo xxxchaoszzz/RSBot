@@ -1,10 +1,10 @@
-package caa4444.hideCraft;
+package caa4444.hidecraft;
 
-import caa4444.hideCraft.misc.Const;
-import caa4444.hideCraft.misc.Variables;
-import caa4444.hideCraft.nodes.BankStuff;
-import caa4444.hideCraft.nodes.Loop;
-import caa4444.hideCraft.nodes.MakeLeather;
+import caa4444.hidecraft.misc.Const;
+import caa4444.hidecraft.misc.Variables;
+import caa4444.hidecraft.nodes.BankStuff;
+import caa4444.hidecraft.nodes.Loop;
+import caa4444.hidecraft.nodes.MakeLeather;
 import org.powerbot.core.event.events.MessageEvent;
 import org.powerbot.core.event.listeners.MessageListener;
 import org.powerbot.core.event.listeners.PaintListener;

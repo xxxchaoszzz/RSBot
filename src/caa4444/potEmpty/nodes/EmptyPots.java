@@ -17,8 +17,9 @@ public class EmptyPots extends Node {
     @Override
     public void execute() {
 
-        if (!Widgets.get(640, 4).visible())
+        if (!Widgets.get(640, 4).visible()) {
             Widgets.get(640, 3).click(true);
+        }
         while (Widgets.get(137, 56).getTextColor() == 0x0000FF) {
             Keyboard.sendKey('\u001B');
             Task.sleep(10, 40);

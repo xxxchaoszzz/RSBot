@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class PowerMiner extends ActiveScript implements PaintListener,
         MessageListener {
 
-    public static Tree jobContainer = null;
+    public static Tree jobContainer;
     public static ArrayList<Node> jobs = new ArrayList<Node>();
     static Client client;
     private final RenderingHints antialiasing = new RenderingHints(
@@ -58,7 +58,7 @@ public class PowerMiner extends ActiveScript implements PaintListener,
             client = Context.client();
         }
         if (jobContainer != null) {
-            Node job = jobContainer.state();
+            final Node job = jobContainer.state();
             if (job != null) {
                 jobContainer.set(job);
                 getContainer().submit(job);

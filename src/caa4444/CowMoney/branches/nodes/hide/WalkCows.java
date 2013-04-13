@@ -1,8 +1,8 @@
-package caa4444.CowMoney.branches.nodes.hide;
+package caa4444.cowmoney.branches.nodes.hide;
 
-import caa4444.CowMoney.misc.Const;
-import caa4444.CowMoney.misc.Methods;
-import caa4444.CowMoney.misc.Variables;
+import caa4444.cowmoney.misc.Const;
+import caa4444.cowmoney.misc.Methods;
+import caa4444.cowmoney.misc.Variables;
 import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.Walking;

@@ -17,24 +17,28 @@ public class BankStuff extends Node {
 
     @Override
     public void execute() {
-        if (!Widgets.get(762).validate()) {
+        if (Widgets.get(762).validate()) {
+            Methods.s("Banking");
+            if (!Inventory.contains(Variables.itemID)) {
+                Bank.depositInventory();
+            }
+            if (Bank.getItemCount(Variables.itemID) < 1) {
+                Methods.stopScript("Out of Pots");
+                return;
+            }
+            Bank.withdraw(Variables.itemID, Bank.Amount.ALL);
+            Bank.close();
+            Variables.timer.reset();
+            while (Widgets.get(762).validate() && Variables.timer.isRunning()) {
+                Task.sleep(50);
+            }
+        } else {
             Methods.s("Opening Bank");
             Bank.open();
             Variables.timer.reset();
-            while (!Widgets.get(762).validate() && Variables.timer.isRunning())
+            while (!Widgets.get(762).validate() && Variables.timer.isRunning()) {
                 Task.sleep(50);
-        } else {
-            Methods.s("Banking");
-            if (!Inventory.contains(Variables.itemID))
-                Bank.depositInventory();
-            if (Bank.getItemCount(Variables.itemID) < 1) {
-                Methods.stopScript("Out of Leather");
-                return;
-            } else Bank.withdraw(Variables.itemID, Bank.Amount.ALL);
-            Bank.close();
-            Variables.timer.reset();
-            while (Widgets.get(762).validate() && Variables.timer.isRunning())
-                Task.sleep(50);
+            }
         }
     }
 }

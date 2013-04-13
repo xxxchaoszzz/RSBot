@@ -1,8 +1,8 @@
 package pro.geektalk.alcher.misc;
 
-public class Const {
-    public static final int NATURE_RUNE = 561;
-    public static final int WIDGET_TEXT = 548;
-    public static final int WIDGETCHILD_TEXT = 435;
+public final class Const {
+    public static int NATURE_RUNE = 561;
+    public static int WIDGET_TEXT = 548;
+    public static int WIDGETCHILD_TEXT = 435;
 
 }

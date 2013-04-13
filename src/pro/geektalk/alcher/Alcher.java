@@ -36,9 +36,9 @@ public class Alcher extends ActiveScript implements PaintListener,
             RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     public void onStart() {
-        GUI gui = new GUI();
-        gui.setVisible(true);
-        while (gui.isVisible()) {
+        final GUI GUI = new GUI();
+        GUI.setVisible(true);
+        while (GUI.isVisible()) {
             Task.sleep(100);
         }
         Mouse.setSpeed(Mouse.Speed.FAST);
@@ -58,11 +58,11 @@ public class Alcher extends ActiveScript implements PaintListener,
                 client = Context.client();
             }
             if (jobContainer != null) {
-                Node job = jobContainer.state();
-                if (job != null) {
-                    jobContainer.set(job);
-                    getContainer().submit(job);
-                    job.join();
+                final Node GUI = jobContainer.state();
+                if (GUI != null) {
+                    jobContainer.set(GUI);
+                    getContainer().submit(GUI);
+                    GUI.join();
                 }
             } else {
                 for (int i = 0; i < 28; i++) {
@@ -81,51 +81,51 @@ public class Alcher extends ActiveScript implements PaintListener,
 
     @Override
     public void onRepaint(Graphics g1) {
-        Point mouse = Mouse.getLocation();
-        Graphics2D g = (Graphics2D) g1;
-        g.setRenderingHints(antialiasing);
+        final Point MOUSE = Mouse.getLocation();
+        final Graphics2D G = (Graphics2D) g1;
+        G.setRenderingHints(antialiasing);
 
         gain = Skills.getExperience(Skills.MAGIC) - Variables.startingExperience;
 
         // -- Fill top bar
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, (int) Game.getDimensions().getWidth(), 50);
+        G.setColor(Color.BLACK);
+        G.fillRect(0, 0, (int) Game.getDimensions().getWidth(), 50);
 
-        g.setColor(Color.GRAY);
-        g.setFont(new Font("Comic Sans MS", Font.ITALIC, 11));
-        g.drawString("Run Time: " + Variables.timer.toElapsedString(), 3, 12);
-        g.drawString("Experience Gained (hr): " + df.format(gain) + " (" + df.format(Methods.getPerHour(gain)) + ")", 3, 25);
-        g.drawString("Alchs (hr): " + df.format(Variables.alchs) + " (" + df.format(Methods.getPerHour(Variables.alchs)) + ")", 3, 38);
-        g.drawString("Level info: " + Skills.getLevel(Skills.MAGIC) + "/" + Variables.startingLevel, 220, 12);
-        g.drawString("TTL: " + Time.format(Methods.TTL(Skills.MAGIC)), 583, 12);
-        g.drawString("Alching Item: " + Variables.slot, 220, 25);
-        g.drawString("Coins Made (hr): " + df.format(Variables.coinsMade) + " (" + df.format(Methods.getPerHour(Variables.coinsMade)) + ")", 220, 38);
+        G.setColor(Color.GRAY);
+        G.setFont(new Font("Comic Sans MS", Font.ITALIC, 11));
+        G.drawString("Run Time: " + Variables.timer.toElapsedString(), 3, 12);
+        G.drawString("Experience Gained (hr): " + df.format(gain) + " (" + df.format(Methods.getPerHour(gain)) + ")", 3, 25);
+        G.drawString("Alchs (hr): " + df.format(Variables.alchs) + " (" + df.format(Methods.getPerHour(Variables.alchs)) + ")", 3, 38);
+        G.drawString("Level info: " + Skills.getLevel(Skills.MAGIC) + "/" + Variables.startingLevel, 220, 12);
+        G.drawString("TTL: " + Time.format(Methods.TTL(Skills.MAGIC)), 583, 12);
+        G.drawString("Alching Item: " + Variables.slot, 220, 25);
+        G.drawString("Coins Made (hr): " + df.format(Variables.coinsMade) + " (" + df.format(Methods.getPerHour(Variables.coinsMade)) + ")", 220, 38);
 
         // -- Mouse
-        g.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
-        int x = mouse.x;
-        int y = mouse.y;
-        g.drawLine(x, y - 10, x, y + 10);
-        g.drawLine(x - 10, y, x + 10, y);
+        G.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
+        final int X = MOUSE.x;
+        final int Y = MOUSE.y;
+        G.drawLine(X, Y - 10, X, Y + 10);
+        G.drawLine(X - 10, Y, X + 10, Y);
 
         // -- Status and label
-        g.setColor(Color.GRAY);
-        g.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-        g.drawString("EZ Alch by caa4444", 5, 310);
+        G.setColor(Color.GRAY);
+        G.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        G.drawString("EZ Alch by caa4444", 5, 310);
 
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setColor(Color.BLUE);
-        g2.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
-        g2.drawString("Status: " + Variables.status, 310, 522);
+        final Graphics2D G2 = (Graphics2D) G.create();
+        G2.setColor(Color.BLUE);
+        G2.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+        G2.drawString("Status: " + Variables.status, 310, 522);
 
     }
 
     @Override
     public void messageReceived(MessageEvent msg) {
-        String m = msg.getMessage();
-        if (m.toLowerCase().contains("have been added ")) {
+        final String M = msg.getMessage();
+        if (M.toLowerCase().contains("have been added ")) {
             Variables.alchs++;
-            String text = m.substring(0, m.indexOf("co") - 1);
+            String text = M.substring(0, M.indexOf("co") - 1);
             if (text.contains(",")) {
                 text = text.replaceAll(",", "");
             }

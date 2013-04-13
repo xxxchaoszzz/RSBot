@@ -18,8 +18,11 @@ public class StopScript extends LoopTask {
         }
         if (!Players.getLocal().isMoving() &&
                 Players.getLocal().getLocation().distance(Variables.startLoc) > 8 && NPCs.getNearest(Const.NPCS) == null) {
-            if (Walking.walk(Variables.startLoc)) Methods.s("Walking to StartLoc");
-            else Methods.stopScript("Out of Bounds");
+            if (Walking.walk(Variables.startLoc)) {
+                Methods.s("Walking to StartLoc");
+            } else {
+                Methods.stopScript("Out of Bounds");
+            }
         }
         if (Players.getLocal().getHealthPercent() < 5) {
             Methods.stopScript("Low HP");

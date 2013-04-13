@@ -1,6 +1,6 @@
-package caa4444.hideCraft;
+package caa4444.hidecraft;
 
-import caa4444.hideCraft.misc.Variables;
+import caa4444.hidecraft.misc.Variables;
 import org.powerbot.game.api.util.Timer;
 
 import javax.swing.*;

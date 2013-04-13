@@ -1,8 +1,8 @@
-package caa4444.hideCraft.nodes;
+package caa4444.hidecraft.nodes;
 
-import caa4444.hideCraft.misc.Const;
-import caa4444.hideCraft.misc.Methods;
-import caa4444.hideCraft.misc.Variables;
+import caa4444.hidecraft.misc.Const;
+import caa4444.hidecraft.misc.Methods;
+import caa4444.hidecraft.misc.Variables;
 import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.Widgets;

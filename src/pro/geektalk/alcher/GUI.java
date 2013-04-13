@@ -27,10 +27,10 @@ public class GUI extends JFrame {
         setTitle("EZ Alch by caa4444");
         setLayout(grid);
         setSize(260, 240);
-        GridBagConstraints c = new GridBagConstraints();
+        final GridBagConstraints C = new GridBagConstraints();
 
-        c.weightx = 1;
-        c.weighty = 1;
+        C.weightx = 1;
+        C.weighty = 1;
 
         for (int i = 0; i < 28; i++) {
             boxes[i] = new JCheckBox("slot " + (i + 1), false);
@@ -38,26 +38,26 @@ public class GUI extends JFrame {
                 boxes[i].setSelected(true);
             }
             boxes[i].setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
-            c.gridx = i % 4;
-            c.gridy = i / 4;
-            pane.add(boxes[i], c);
+            C.gridx = i % 4;
+            C.gridy = i / 4;
+            pane.add(boxes[i], C);
         }
-        c.gridx = 0;
-        c.gridy = 7;
-        pane.add(btnStart, c);
+        C.gridx = 0;
+        C.gridy = 7;
+        pane.add(btnStart, C);
         label1.setFont(new Font("Comic Sans MS", Font.ITALIC, 11));
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.gridx = 1;
-        pane.add(label1, c);
+        C.gridwidth = GridBagConstraints.REMAINDER;
+        C.gridx = 1;
+        pane.add(label1, C);
         btnStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                startScript(e);
+                startScript();
             }
         });
     }
 
-    public void startScript(ActionEvent e) {
+    public void startScript() {
         for (int i = 0; i < 28; i++) {
             Variables.slotsToAlch[i] = boxes[i].isSelected();
         }

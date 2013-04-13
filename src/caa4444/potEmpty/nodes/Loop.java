@@ -9,7 +9,6 @@ public class Loop extends LoopTask {
 
     @Override
     public int loop() {
-
         Variables.itemHour = Const.DF.format(Methods.getPerHour(Variables.itemsEmptied));
         return 200;
     }

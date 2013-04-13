@@ -9,10 +9,10 @@ public class Antiban extends LoopTask {
 
     @Override
     public int loop() {
-        int random = Random.nextInt(0, 1000);
-        if (random < 5 || random > 995) {
+        final int RANDOM = Random.nextInt(0, 1000);
+        if (RANDOM < 5 || RANDOM > 995) {
             Methods.s("Camera stuff");
-            switch (random) {
+            switch (RANDOM) {
                 case 1:
                     Camera.setAngle(Random.nextInt(400, 1200));
                     Camera.setPitch(Random.nextInt(5, 35));

@@ -22,29 +22,32 @@ public class Attack extends Node {
     public void execute() {
 
 
-        NPC npc = NPCs.getNearest(new Filter<NPC>() {
+        final NPC NPC = NPCs.getNearest(new Filter<NPC>() {
             public boolean accept(final NPC npc) {
                 for (final String n : Const.NPCS) {
                     if (n.toLowerCase().contains(npc.getName().toLowerCase()) && npc.getHealthPercent() > 0
-                            && (!npc.isInCombat() || npc.getInteracting().equals(Players.getLocal())))
+                            && (!npc.isInCombat() || npc.getInteracting().equals(Players.getLocal()))) {
                         return true;
+                    }
                 }
                 return false;
             }
         });
-        if (npc != null) {
-            if (!Methods.isOnScreen(npc) && Methods.turnTo(npc, 20)) {
-                Methods.s("Turning to " + npc.getName());
+        if (NPC != null) {
+            if (!Methods.isOnScreen(NPC) && Methods.turnTo(NPC, 20)) {
+                Methods.s("Turning to " + NPC.getName());
                 return;
             }
-            if (npc.interact("Attack", npc.getName())) {
-                Methods.s("Attacking " + npc.getName());
+            if (NPC.interact("Attack", NPC.getName())) {
+                Methods.s("Attacking " + NPC.getName());
                 Timer wait = new Timer(600);
-                while (Players.getLocal().getInteracting() == null && wait.isRunning())
+                while (Players.getLocal().getInteracting() == null && wait.isRunning()) {
                     Task.sleep(50);
+                }
                 wait = new Timer(1000);
-                while (Players.getLocal().getInteracting() != null && wait.isRunning())
+                while (Players.getLocal().getInteracting() != null && wait.isRunning()) {
                     Task.sleep(50);
+                }
             }
         }
     }

@@ -22,7 +22,7 @@ public class Methods {
     }
 
     public static int getPerHour(final int base, final long time) {
-        return (int) ((base) * 3600000D / (System.currentTimeMillis() - time));
+        return (int) (base * 3600000D / (System.currentTimeMillis() - time));
     }
 
 
@@ -42,23 +42,25 @@ public class Methods {
 
     public static boolean turnTo(Locatable locatable, int degreesDeviation) {
         final double DEGREES_PER_PIXEL_X = 0.35;
-        int degrees = Camera.getMobileAngle(locatable) % 360;
-        int angleTo = Camera.getAngleTo(degrees);
+        final int DEGREES = Camera.getMobileAngle(locatable) % 360;
+        int angleTo = Camera.getAngleTo(DEGREES);
         while (Math.abs(angleTo) > degreesDeviation) {
-            angleTo = Camera.getAngleTo(degrees);
+            angleTo = Camera.getAngleTo(DEGREES);
             int pixelsTo = (int) Math.abs(angleTo / DEGREES_PER_PIXEL_X)
                     + Random.nextInt(-(int) (degreesDeviation / DEGREES_PER_PIXEL_X) + 1,
                     (int) (degreesDeviation / DEGREES_PER_PIXEL_X) - 1);
-            if (pixelsTo > 450) pixelsTo = pixelsTo / 450 * 450;
-            int startY = Random.nextInt(-25, 25) + Mouse.getY();
+            if (pixelsTo > 450) {
+                pixelsTo = pixelsTo / 450 * 450;
+            }
+            final int startY = Random.nextInt(-25, 25) + Mouse.getY();
             if (angleTo > degreesDeviation) {//right
-                int startX = (500 - pixelsTo) - Random.nextInt(0, 500 - pixelsTo - 10);
+                final int startX = 500 - pixelsTo - Random.nextInt(0, 500 - pixelsTo - 10);
                 dragMouse(startX, startY, startX + pixelsTo, startY + Random.nextInt(-5, 5));
             } else if (angleTo < -degreesDeviation) {//left
-                int startX = (pixelsTo + 10) + Random.nextInt(0, 500 - pixelsTo + 10);
+                final int startX = pixelsTo + 10 + Random.nextInt(0, 500 - pixelsTo + 10);
                 dragMouse(startX, startY, startX - pixelsTo, startY + Random.nextInt(-5, 5));
             }
         }
-        return Math.abs(Camera.getAngleTo(degrees)) <= degreesDeviation;
+        return Math.abs(Camera.getAngleTo(DEGREES)) <= degreesDeviation;
     }
 }

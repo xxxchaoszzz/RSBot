@@ -19,7 +19,9 @@ public class WalkBones extends Node {
     public void execute() {
         Methods.s("Walking to Bones");
         Walking.walk(Variables.bone.getLocation());
-        Timer t = new Timer(10000);
-        while (Players.getLocal().isMoving() && t.isRunning()) Task.sleep(300);
+        final Timer T = new Timer(10000);
+        while (Players.getLocal().isMoving() && T.isRunning()) {
+            Task.sleep(300);
+        }
     }
 }

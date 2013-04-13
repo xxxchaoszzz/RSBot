@@ -13,8 +13,8 @@ public class Methods {
     }
 
     public static long TTL(int skill) {
-        int gain = Skills.getExperience(Skills.MAGIC) - Variables.startingExperience;
-        return getPerHour(gain) != 0 ? (long) ((double) Skills.getExperienceToLevel(skill, Skills.getLevel(skill) + 1) / (double) getPerHour(gain) * 3600000) : 0;
+        final int GAIN = Skills.getExperience(Skills.MAGIC) - Variables.startingExperience;
+        return getPerHour(GAIN) != 0 ? (long) ((double) Skills.getExperienceToLevel(skill, Skills.getLevel(skill) + 1) / (double) getPerHour(GAIN) * 3600000) : 0;
     }
 
     public static boolean outOfItems() {

@@ -1,4 +1,4 @@
-package caa4444.hideCraft.misc;
+package caa4444.hidecraft.misc;
 
 import org.powerbot.game.api.util.Timer;
 

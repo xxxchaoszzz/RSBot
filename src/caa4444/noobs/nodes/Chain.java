@@ -21,15 +21,17 @@ public class Chain extends Node {
 
     @Override
     public void execute() {
-        if (!Widgets.get(640, 4).isOnScreen())
+        if (!Widgets.get(640, 4).isOnScreen()) {
             Widgets.get(640, 3).click(true);
+        }
 
         if (Widgets.get(640, Const.COOLDOWN_CHILD[1]).getTextureId() == 14521 &&
                 Widgets.get(640, Const.ITEM_CHILD[1]).getTextColor() == 0xFFFFFF && NPCs.getLoaded(new Filter<NPC>() {
             public boolean accept(final NPC npc) {
                 for (final String n : Const.NPCS) {
-                    if (n.toLowerCase().contains(npc.getName().toLowerCase()))
+                    if (n.toLowerCase().contains(npc.getName().toLowerCase())) {
                         return true;
+                    }
                 }
                 return false;
             }
@@ -39,8 +41,8 @@ public class Chain extends Node {
             Task.sleep(250);
         } else {
             for (int i = 3; i < 8; i++) {
-                if (Widgets.get(640, Const.COOLDOWN_CHILD[(i - 1)]).getTextureId() == 14521 &&
-                        Widgets.get(640, Const.ITEM_CHILD[(i - 1)]).getTextColor() == 0xFFFFFF) {
+                if (Widgets.get(640, Const.COOLDOWN_CHILD[i - 1]).getTextureId() == 14521 &&
+                        Widgets.get(640, Const.ITEM_CHILD[i - 1]).getTextColor() == 0xFFFFFF) {
                     Keyboard.sendText(i + "", false);
                     Methods.s("Using Ability");
                     Task.sleep(250);

@@ -2,6 +2,7 @@ package caa4444.potEmpty;
 
 import caa4444.potEmpty.misc.Methods;
 import caa4444.potEmpty.misc.Variables;
+import org.powerbot.game.api.util.Timer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,10 +22,10 @@ public class GUI extends JFrame {
     GridBagConstraints c = new GridBagConstraints();
 
     public GUI() {
-        this.setLocationRelativeTo(null);
-        this.setTitle("Potion Emptier by caa4444");
-        this.setLayout(new GridBagLayout());
-        this.setSize(200, 200);
+        setLocationRelativeTo(null);
+        setTitle("Potion Emptier by caa4444");
+        setLayout(new GridBagLayout());
+        setSize(200, 200);
 
         pane = getContentPane();
 
@@ -55,13 +56,14 @@ public class GUI extends JFrame {
 
     public void startScript() {
         try {
-            if (idBox.getText().length() > 0)
+            if (!idBox.getText().isEmpty()) {
                 Variables.itemID = Integer.parseInt(idBox.getText());
+            }
         } catch (NumberFormatException nfe) {
             Methods.s("Emptying Serum 207 by Default");
         }
-        this.dispose();
+        dispose();
         Variables.guiIsDone = true;
-        Variables.timer = new org.powerbot.game.api.util.Timer(1000);
+        Variables.timer = new Timer(1000);
     }
 }

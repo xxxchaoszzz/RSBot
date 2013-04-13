@@ -40,11 +40,11 @@ public class AlchItem extends Node {
         }
         Variables.slot = SLOT + 1;
 
-        WidgetChild WIDGET = Widgets.get(Const.WIDGET_TEXT,
+        final WidgetChild WIDGET = Widgets.get(Const.WIDGET_TEXT,
                 Const.WIDGETCHILD_TEXT).getChild(0);
-        Item ITEM = Inventory.getItemAt(SLOT);
+        final Item ITEM = Inventory.getItemAt(SLOT);
         if (ITEM != null) {
-            Point P = ITEM.getWidgetChild().getCentralPoint();
+            final Point P = ITEM.getWidgetChild().getCentralPoint();
             if (!ITEM.getWidgetChild().getBoundingRectangle().contains(Mouse.getLocation())) {
                 Mouse.move(P);
             }

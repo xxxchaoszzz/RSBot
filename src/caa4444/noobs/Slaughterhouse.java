@@ -14,7 +14,6 @@ import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
 import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.input.Mouse;
-import org.powerbot.game.api.methods.input.Mouse.Speed;
 import org.powerbot.game.api.methods.tab.Skills;
 import org.powerbot.game.api.methods.widget.WidgetCache;
 import org.powerbot.game.api.util.Time;
@@ -28,7 +27,7 @@ import java.text.NumberFormat;
 @Manifest(authors = {"caa4444"}, name = "Slaughterhouse", description = "Powertraining on low level critters", version = 1)
 public class Slaughterhouse extends ActiveScript implements PaintListener {
 
-    public static Tree jobContainer = null;
+    public static Tree jobContainer;
     public static Node[] jobs = {new Attack(), new Chain()};
     static Client client;
     private final RenderingHints ANTIALIASING = new RenderingHints(
@@ -36,7 +35,7 @@ public class Slaughterhouse extends ActiveScript implements PaintListener {
 
     public void onStart() {
         Task.sleep(100);
-        Mouse.setSpeed(Speed.VERY_FAST);
+        Mouse.setSpeed(Mouse.Speed.VERY_FAST);
     }
 
     @Override
@@ -50,11 +49,11 @@ public class Slaughterhouse extends ActiveScript implements PaintListener {
             client = Context.client();
         }
         if (jobContainer != null) {
-            final Node job = jobContainer.state();
-            if (job != null) {
-                jobContainer.set(job);
-                getContainer().submit(job);
-                job.join();
+            final Node JOB = jobContainer.state();
+            if (JOB != null) {
+                jobContainer.set(JOB);
+                getContainer().submit(JOB);
+                JOB.join();
             }
         } else {
             jobContainer = new Tree(jobs);
@@ -96,19 +95,20 @@ public class Slaughterhouse extends ActiveScript implements PaintListener {
 
         // -- Mouse
         G.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
-        int x = MOUSE.x, y = MOUSE.y;
-        G.drawLine(x, y - 10, x, y + 10);
-        G.drawLine(x - 10, y, x + 10, y);
+        final int X = MOUSE.x;
+        final int Y = MOUSE.y;
+        G.drawLine(X, Y - 10, X, Y + 10);
+        G.drawLine(X - 10, Y, X + 10, Y);
 
         // -- Status and label
         G.setColor(Color.WHITE);
         G.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
         G.drawString("Slaughterhouse by caa4444", 5, 310);
 
-        Graphics2D g2 = (Graphics2D) G.create();
-        g2.setColor(Color.BLACK);
-        g2.setFont(new Font("Garamond", Font.PLAIN, 14));
-        g2.drawString("Status: " + Variables.status, 310, 522);
+        final Graphics2D G2 = (Graphics2D) G.create();
+        G2.setColor(Color.BLACK);
+        G2.setFont(new Font("Garamond", Font.PLAIN, 14));
+        G2.drawString("Status: " + Variables.status, 310, 522);
     }
 }
 
