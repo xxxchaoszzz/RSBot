@@ -4,12 +4,12 @@ import org.powerbot.core.event.events.MessageEvent;
 import org.powerbot.core.event.listeners.MessageListener;
 import org.powerbot.core.event.listeners.PaintListener;
 import org.powerbot.core.script.ActiveScript;
+import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
 import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.input.Mouse;
-import org.powerbot.game.api.methods.input.Mouse.Speed;
 import org.powerbot.game.api.methods.tab.Skills;
 import org.powerbot.game.api.methods.widget.WidgetCache;
 import org.powerbot.game.api.util.Time;
@@ -38,8 +38,10 @@ public class Alcher extends ActiveScript implements PaintListener,
     public void onStart() {
         GUI gui = new GUI();
         gui.setVisible(true);
-        while (gui.isVisible()) sleep(100);
-        Mouse.setSpeed(Speed.FAST);
+        while (gui.isVisible()) {
+            Task.sleep(100);
+        }
+        Mouse.setSpeed(Mouse.Speed.FAST);
         getContainer().submit(new StopScript());
         getContainer().submit(new Antiban());
     }
@@ -50,20 +52,24 @@ public class Alcher extends ActiveScript implements PaintListener,
             if (Game.getClientState() != Game.INDEX_MAP_LOADED) {
                 return 2500;
             }
-            if (client != Context.client()) {
+            if (!client.equals(Context.client())) {
                 WidgetCache.purge();
                 Context.get().getEventManager().addListener(this);
                 client = Context.client();
             }
             if (jobContainer != null) {
-                final Node job = jobContainer.state();
+                Node job = jobContainer.state();
                 if (job != null) {
                     jobContainer.set(job);
                     getContainer().submit(job);
                     job.join();
                 }
             } else {
-                for (int i = 0; i < 28; i++) if (Variables.slotsToAlch[i]) jobs.add(new AlchItem(i));
+                for (int i = 0; i < 28; i++) {
+                    if (Variables.slotsToAlch[i]) {
+                        jobs.add(new AlchItem(i));
+                    }
+                }
                 jobContainer = new Tree(jobs.toArray(new Node[jobs.size()]));
             }
         }
@@ -71,12 +77,12 @@ public class Alcher extends ActiveScript implements PaintListener,
     }
 
     NumberFormat df = DecimalFormat.getInstance();
-    int gain = 0;
+    int gain;
 
     @Override
     public void onRepaint(Graphics g1) {
-        final Point mouse = Mouse.getLocation();
-        final Graphics2D g = (Graphics2D) g1;
+        Point mouse = Mouse.getLocation();
+        Graphics2D g = (Graphics2D) g1;
         g.setRenderingHints(antialiasing);
 
         gain = Skills.getExperience(Skills.MAGIC) - Variables.startingExperience;
@@ -97,7 +103,8 @@ public class Alcher extends ActiveScript implements PaintListener,
 
         // -- Mouse
         g.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
-        int x = mouse.x, y = mouse.y;
+        int x = mouse.x;
+        int y = mouse.y;
         g.drawLine(x, y - 10, x, y + 10);
         g.drawLine(x - 10, y, x + 10, y);
 

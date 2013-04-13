@@ -9,7 +9,7 @@ public class Antiban extends LoopTask {
 
     @Override
     public int loop() {
-        final int random = Random.nextInt(0, 1000);
+        int random = Random.nextInt(0, 1000);
         if (random < 5 || random > 995) {
             Methods.s("Camera stuff");
             switch (random) {

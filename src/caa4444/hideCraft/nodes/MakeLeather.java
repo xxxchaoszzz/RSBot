@@ -27,8 +27,9 @@ public class MakeLeather extends Node {
         }
 
         if (Widgets.get(1371).validate()) {
-            if (Widgets.get(1371, 44).getChild(Variables.i.getWIDGET_ID()).getTextureId() == -1)
+            if (Widgets.get(1371, 44).getChild(Variables.i.getWIDGET_ID()).getTextureId() == -1) {
                 Widgets.get(1371, 44).getChild(Variables.i.getWIDGET_ID()).click(true);
+            }
             Methods.s("Crafting Leather");
             if (Widgets.get(1371, 44).getChild(Variables.i.getWIDGET_ID()).getTextureId() == 15201 &&
                     Widgets.get(1370, 20).interact("Make")) {
@@ -39,14 +40,17 @@ public class MakeLeather extends Node {
             Methods.s("Opening Craft Menu");
             if (Widgets.get(1179, 16).interact("Select")) {
                 Variables.timer.reset();
-                while (!Widgets.get(1371).validate() && Variables.timer.isRunning()) Task.sleep(50);
+                while (!Widgets.get(1371).validate() && Variables.timer.isRunning()) {
+                    Task.sleep(50);
+                }
             }
         } else {
             Methods.s("Opening Tool Menu");
             if (Inventory.getItem(1743).getWidgetChild().interact("Craft")) {
                 Variables.timer.reset();
-                while (!Widgets.get(1371).validate() && !Widgets.get(1179).validate() && Variables.timer.isRunning())
+                while (!Widgets.get(1371).validate() && !Widgets.get(1179).validate() && Variables.timer.isRunning()) {
                     Task.sleep(50);
+                }
             }
         }
     }

@@ -5,18 +5,18 @@ import org.powerbot.game.bot.Context;
 
 public class Methods {
 
-    public static void stopScript(final String s) {
+    public static void stopScript(String s) {
         s(s);
         Context.get().getScriptHandler().shutdown();
     }
 
-    public static void s(final String s) {
+    public static void s(String s) {
         Variables.status = s;
         System.out.println(String.format("[Hard Leather Sweatshop] %s", s));
     }
 
-    public static int getPerHour(final int base) {
-        return (int) ((base) * 3600000D / Variables.timer.getElapsed());
+    public static int getPerHour(int base) {
+        return (int) (base * 3600000D / Variables.timer.getElapsed());
     }
 
     public static long TTL(int xpHour) {

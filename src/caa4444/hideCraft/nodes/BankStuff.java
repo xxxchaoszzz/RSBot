@@ -20,34 +20,40 @@ public class BankStuff extends Node {
 
     @Override
     public void execute() {
-        if (!Widgets.get(762).validate()) {
-            Methods.s("Opening Bank");
-            Bank.open();
-            Variables.timer.reset();
-            while (!Widgets.get(762).validate() && Variables.timer.isRunning())
-                Task.sleep(50);
-        } else {
+        if (Widgets.get(762).validate()) {
             Methods.s("Banking");
-            if (Inventory.contains(Variables.i.getITEM_ID())) {
-                Bank.deposit(Variables.i.getITEM_ID(), Bank.Amount.ALL);
+            if (Inventory.contains(Variables.i.getITEM_ID()) && Bank.deposit(Variables.i.getITEM_ID(), Bank.Amount.ALL)) {
                 if (Inventory.getCount() > Inventory.getCount(1734)) {
                     LinkedHashSet<Integer> IDs = new LinkedHashSet<Integer>();
                     for (Item i : Inventory.getAllItems(false)) {
-                        if (i.getId() != 1734 && i.getId() != 1743) IDs.add(i.getId());
+                        if (i.getId() != 1734 && i.getId() != 1743) {
+                            IDs.add(i.getId());
+                        }
                     }
                     for (Integer i : IDs) {
-                        if (Bank.deposit(i, Bank.Amount.ALL)) Task.sleep(80);
+                        if (Bank.deposit(i, Bank.Amount.ALL)) {
+                            Task.sleep(80);
+                        }
                     }
                 }
             }
             if (Bank.getItemCount(1743) < 1) {
                 Methods.stopScript("Out of Leather");
                 return;
-            } else Bank.withdraw(1743, Bank.Amount.ALL);
+            }
+            Bank.withdraw(1743, Bank.Amount.ALL);
             Bank.close();
             Variables.timer.reset();
-            while (Widgets.get(762).validate() && Variables.timer.isRunning())
+            while (Widgets.get(762).validate() && Variables.timer.isRunning()) {
                 Task.sleep(50);
+            }
+        } else {
+            Methods.s("Opening Bank");
+            Bank.open();
+            Variables.timer.reset();
+            while (!Widgets.get(762).validate() && Variables.timer.isRunning()) {
+                Task.sleep(50);
+            }
         }
     }
 }

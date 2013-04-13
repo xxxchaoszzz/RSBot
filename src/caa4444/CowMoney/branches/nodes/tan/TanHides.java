@@ -24,21 +24,25 @@ public class TanHides extends Node {
         Methods.s("Interacting with tanner");
         NPC theTanner = NPCs.getNearest(Const.ID_TANNER);
         if (!Widgets.get(1370).validate()) {
-            if (theTanner == null)
+            if (theTanner == null) {
                 return;
-            if (!theTanner.isOnScreen())
+            }
+            if (!theTanner.isOnScreen()) {
                 Methods.turnTo(theTanner, 20);
+            }
             theTanner.interact("Tan hide");
             Timer t = new Timer(1000);
-            while (!Widgets.get(1370).validate() && t.isRunning())
+            while (!Widgets.get(1370).validate() && t.isRunning()) {
                 Task.sleep(50);
+            }
         }
         if (Widgets.get(1370).validate()) {
             Methods.s("Tanning Hide");
             Widgets.get(1370, 38).click(true);
             Timer t = new Timer(1000);
-            while (Inventory.contains(1739) && t.isRunning())
+            while (Inventory.contains(1739) && t.isRunning()) {
                 Task.sleep(50);
+            }
             Variables.hides += Inventory.getCount(1743);
         }
     }

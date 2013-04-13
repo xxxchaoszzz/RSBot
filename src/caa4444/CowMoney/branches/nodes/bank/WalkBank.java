@@ -21,11 +21,13 @@ public class WalkBank extends Node {
         Walking.walk(Variables.bankTile);
         Timer t = new Timer(500);
         while (!Players.getLocal().isMoving() && Walking.getDestination().distance(Players.getLocal().getLocation()) > 6 &&
-                Const.BANK_T.distance(Players.getLocal().getLocation()) > 4 && t.isRunning())
+                Const.BANK_T.distance(Players.getLocal().getLocation()) > 4 && t.isRunning()) {
             Task.sleep(500);
+        }
         t = new Timer(2000);
         while (Players.getLocal().isMoving() && Walking.getDestination().distance(Players.getLocal().getLocation()) > 6 &&
-                Const.BANK_T.distance(Players.getLocal().getLocation()) > 4 && t.isRunning())
+                Const.BANK_T.distance(Players.getLocal().getLocation()) > 4 && t.isRunning()) {
             Task.sleep(500);
+        }
     }
 }

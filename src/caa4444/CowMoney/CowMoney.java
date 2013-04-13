@@ -22,7 +22,6 @@ import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
 import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.input.Mouse;
-import org.powerbot.game.api.methods.input.Mouse.Speed;
 import org.powerbot.game.api.methods.widget.WidgetCache;
 import org.powerbot.game.bot.Context;
 import org.powerbot.game.client.Client;
@@ -45,7 +44,7 @@ public class CowMoney extends ActiveScript implements PaintListener {
 
     public void onStart() {
         Task.sleep(100);
-        Mouse.setSpeed(Speed.VERY_FAST);
+        Mouse.setSpeed(Mouse.Speed.VERY_FAST);
         getContainer().submit(new StopScript());
         provide(new Branch[]{new Hide(new Node[]{new WalkCows(), new Collect(), new Attack()}),
                 new Tan(new Node[]{new WalkTanner(), new TanHides()}), new Bank(new Node[]{new WalkBank(), new BankLeather()})});
@@ -56,13 +55,13 @@ public class CowMoney extends ActiveScript implements PaintListener {
         if (Game.getClientState() != Game.INDEX_MAP_LOADED) {
             return 2500;
         }
-        if (client != Context.client()) {
+        if (!client.equals(Context.client())) {
             WidgetCache.purge();
             Context.get().getEventManager().addListener(this);
             client = Context.client();
         }
         if (jobContainer != null) {
-            final Node job = jobContainer.state();
+            Node job = jobContainer.state();
             if (job != null) {
                 jobContainer.set(job);
                 getContainer().submit(job);
@@ -77,8 +76,8 @@ public class CowMoney extends ActiveScript implements PaintListener {
 
     @Override
     public void onRepaint(Graphics g1) {
-        final Point MOUSE = Mouse.getLocation();
-        final Graphics2D G = (Graphics2D) g1;
+        Point MOUSE = Mouse.getLocation();
+        Graphics2D G = (Graphics2D) g1;
         G.setRenderingHints(ANTIALIASING);
 
         // -- Fill top bar
@@ -93,7 +92,8 @@ public class CowMoney extends ActiveScript implements PaintListener {
 
         // -- Mouse
         G.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
-        int x = MOUSE.x, y = MOUSE.y;
+        int x = MOUSE.x;
+        int y = MOUSE.y;
         G.drawLine(x, y - 10, x, y + 10);
         G.drawLine(x - 10, y, x + 10, y);
 
@@ -109,8 +109,8 @@ public class CowMoney extends ActiveScript implements PaintListener {
         g2.drawString("Status: " + Variables.status, 310, 522);
     }
 
-    public synchronized final void provide(final Node... jobs) {
-        for (final Node job : jobs) {
+    public final synchronized void provide(Node... jobs) {
+        for (Node job : jobs) {
             if (!jobsCollection.contains(job)) {
                 jobsCollection.add(job);
             }

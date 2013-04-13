@@ -37,11 +37,13 @@ public class Attack extends Node {
             if (npc.interact("Attack", npc.getName())) {
                 Methods.s("Attacking " + npc.getName());
                 Timer wait = new Timer(600);
-                while (Players.getLocal().getInteracting() == null && wait.isRunning())
+                while (Players.getLocal().getInteracting() == null && wait.isRunning()) {
                     Task.sleep(50);
+                }
                 wait = new Timer(1000);
-                while (Players.getLocal().getInteracting() != null && wait.isRunning())
+                while (Players.getLocal().getInteracting() != null && wait.isRunning()) {
                     Task.sleep(50);
+                }
             }
         }
     }

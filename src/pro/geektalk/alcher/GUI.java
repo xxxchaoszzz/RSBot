@@ -23,10 +23,10 @@ public class GUI extends JFrame {
     public GUI() {
         pane = getContentPane();
         grid = new GridBagLayout();
-        this.setLocationRelativeTo(null);
-        this.setTitle("EZ Alch by caa4444");
-        this.setLayout(grid);
-        this.setSize(260, 240);
+        setLocationRelativeTo(null);
+        setTitle("EZ Alch by caa4444");
+        setLayout(grid);
+        setSize(260, 240);
         GridBagConstraints c = new GridBagConstraints();
 
         c.weightx = 1;
@@ -34,7 +34,9 @@ public class GUI extends JFrame {
 
         for (int i = 0; i < 28; i++) {
             boxes[i] = new JCheckBox("slot " + (i + 1), false);
-            if (i < 4) boxes[i].setSelected(true);
+            if (i < 4) {
+                boxes[i].setSelected(true);
+            }
             boxes[i].setFont(new Font("Comic Sans MS", Font.PLAIN, 10));
             c.gridx = i % 4;
             c.gridy = i / 4;
@@ -59,7 +61,7 @@ public class GUI extends JFrame {
         for (int i = 0; i < 28; i++) {
             Variables.slotsToAlch[i] = boxes[i].isSelected();
         }
-        this.dispose();
+        dispose();
         Variables.guiIsDone = true;
         Variables.timer = new Timer(0);
     }

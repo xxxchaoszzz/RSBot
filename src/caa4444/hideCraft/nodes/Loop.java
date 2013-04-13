@@ -12,8 +12,7 @@ public class Loop extends LoopTask {
     @Override
     public int loop() {
 
-        int gain;
-        gain = Skills.getExperience(Skills.CRAFTING)
+        int gain = Skills.getExperience(Skills.CRAFTING)
                 - Variables.startingExperience;
         Variables.xpHourly = Methods.getPerHour(gain);
         Variables.xpGain = Const.DF.format(Skills.getExperience(Skills.CRAFTING)

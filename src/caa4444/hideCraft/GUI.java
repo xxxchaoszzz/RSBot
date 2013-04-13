@@ -1,6 +1,7 @@
 package caa4444.hideCraft;
 
 import caa4444.hideCraft.misc.Variables;
+import org.powerbot.game.api.util.Timer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,10 +21,10 @@ public class GUI extends JFrame {
     GridBagConstraints c = new GridBagConstraints();
 
     public GUI() {
-        this.setLocationRelativeTo(null);
-        this.setTitle("Hard Leather Sweatshop by caa4444");
-        this.setLayout(new GridBagLayout());
-        this.setSize(200, 200);
+        setLocationRelativeTo(null);
+        setTitle("Hard Leather Sweatshop by caa4444");
+        setLayout(new GridBagLayout());
+        setSize(200, 200);
 
         pane = getContentPane();
 
@@ -57,8 +58,8 @@ public class GUI extends JFrame {
 
     public void startScript() {
         Variables.i = Items.values()[options.getSelectedIndex()];
-        this.dispose();
+        dispose();
         Variables.guiIsDone = true;
-        Variables.timer = new org.powerbot.game.api.util.Timer(1000);
+        Variables.timer = new Timer(1000);
     }
 }

@@ -21,11 +21,13 @@ public class WalkCows extends Node {
         Walking.walk(Variables.cowTile);
         Timer t = new Timer(500);
         while (!Players.getLocal().isMoving() && Walking.getDestination().distance(Players.getLocal().getLocation()) > 6 &&
-                !Const.COW_AREA.contains(Players.getLocal()) && t.isRunning())
+                !Const.COW_AREA.contains(Players.getLocal()) && t.isRunning()) {
             Task.sleep(500);
+        }
         t = new Timer(2000);
         while (Players.getLocal().isMoving() && Walking.getDestination().distance(Players.getLocal().getLocation()) > 6 &&
-                !Const.COW_AREA.contains(Players.getLocal()) && t.isRunning())
+                !Const.COW_AREA.contains(Players.getLocal()) && t.isRunning()) {
             Task.sleep(500);
+        }
     }
 }

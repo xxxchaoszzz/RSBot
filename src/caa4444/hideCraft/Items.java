@@ -11,9 +11,9 @@ public enum Items {
     private final String ITEM_NAME;
 
     Items(int wid, int iid, String name) {
-        this.WIDGET_ID = wid;
-        this.ITEM_ID = iid;
-        this.ITEM_NAME = name;
+        WIDGET_ID = wid;
+        ITEM_ID = iid;
+        ITEM_NAME = name;
     }
 
     public int getWIDGET_ID() {

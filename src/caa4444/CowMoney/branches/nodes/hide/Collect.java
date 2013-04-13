@@ -19,7 +19,7 @@ public class Collect extends Node {
 
     @Override
     public void execute() {
-        final GroundItem hide = GroundItems.getNearest(12, 1739);
+        GroundItem hide = GroundItems.getNearest(12, 1739);
         if (hide != null) {
             if (!hide.isOnScreen() && Methods.turnTo(hide, 20)) {
                 Methods.s("Turning to hide");
@@ -29,8 +29,9 @@ public class Collect extends Node {
                 Methods.s("Taking hide");
                 Tile hidTil = hide.getLocation();
                 Timer wait = new Timer(3000);
-                while (Players.getLocal().getLocation().distance(hidTil) > 0.75 && hide.validate() && wait.isRunning())
+                while (Players.getLocal().getLocation().distance(hidTil) > 0.75 && hide.validate() && wait.isRunning()) {
                     Task.sleep(50);
+                }
             }
         }
     }

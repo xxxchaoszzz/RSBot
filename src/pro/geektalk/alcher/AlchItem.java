@@ -31,20 +31,23 @@ public class AlchItem extends Node {
 
     @Override
     public void execute() {
-        if (!Widgets.get(640, 4).visible())
+        if (!Widgets.get(640, 4).visible()) {
             Widgets.get(640, 3).click(true);
+        }
         while (Widgets.get(137, 56).getTextColor() == 0x0000FF) {
             Keyboard.sendKey('\u001B');
             Task.sleep(10, 40);
         }
         Variables.slot = SLOT + 1;
 
-        final WidgetChild WIDGET = Widgets.get(Const.WIDGET_TEXT,
+        WidgetChild WIDGET = Widgets.get(Const.WIDGET_TEXT,
                 Const.WIDGETCHILD_TEXT).getChild(0);
-        final Item ITEM = Inventory.getItemAt(SLOT);
+        Item ITEM = Inventory.getItemAt(SLOT);
         if (ITEM != null) {
-            final Point P = ITEM.getWidgetChild().getCentralPoint();
-            if (!ITEM.getWidgetChild().getBoundingRectangle().contains(Mouse.getLocation())) Mouse.move(P);
+            Point P = ITEM.getWidgetChild().getCentralPoint();
+            if (!ITEM.getWidgetChild().getBoundingRectangle().contains(Mouse.getLocation())) {
+                Mouse.move(P);
+            }
             Methods.s("Alching " + ITEM.getName());
             if (WIDGET.getText().contains("ast")) {
                 if (Random.nextInt(0, 10) % 2 == 0) {

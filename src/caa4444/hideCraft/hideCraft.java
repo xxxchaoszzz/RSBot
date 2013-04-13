@@ -15,7 +15,6 @@ import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
 import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.input.Mouse;
-import org.powerbot.game.api.methods.input.Mouse.Speed;
 import org.powerbot.game.api.methods.tab.Skills;
 import org.powerbot.game.api.methods.widget.WidgetCache;
 import org.powerbot.game.bot.Context;
@@ -27,7 +26,7 @@ import java.awt.*;
 public class hideCraft extends ActiveScript implements PaintListener,
         MessageListener {
 
-    public static Tree jobContainer = null;
+    public static Tree jobContainer;
     static Client client;
     private final RenderingHints antialiasing = new RenderingHints(
             RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -35,9 +34,11 @@ public class hideCraft extends ActiveScript implements PaintListener,
     public void onStart() {
         GUI gui = new GUI();
         gui.setVisible(true);
-        while (gui.isVisible()) sleep(100);
+        while (gui.isVisible()) {
+            Task.sleep(100);
+        }
         Task.sleep(100);
-        Mouse.setSpeed(Speed.VERY_FAST);
+        Mouse.setSpeed(Mouse.Speed.VERY_FAST);
         getContainer().submit(new Loop());
     }
 
@@ -47,13 +48,13 @@ public class hideCraft extends ActiveScript implements PaintListener,
             if (Game.getClientState() != Game.INDEX_MAP_LOADED) {
                 return 2500;
             }
-            if (client != Context.client()) {
+            if (!client.equals(Context.client())) {
                 WidgetCache.purge();
                 Context.get().getEventManager().addListener(this);
                 client = Context.client();
             }
             if (jobContainer != null) {
-                final Node job = jobContainer.state();
+                Node job = jobContainer.state();
                 if (job != null) {
                     jobContainer.set(job);
                     getContainer().submit(job);
@@ -69,8 +70,8 @@ public class hideCraft extends ActiveScript implements PaintListener,
 
     @Override
     public void onRepaint(Graphics g1) {
-        final Point mouse = Mouse.getLocation();
-        final Graphics2D g = (Graphics2D) g1;
+        Point mouse = Mouse.getLocation();
+        Graphics2D g = (Graphics2D) g1;
         g.setRenderingHints(antialiasing);
 
 
@@ -91,7 +92,8 @@ public class hideCraft extends ActiveScript implements PaintListener,
                 420, 25);
         // -- Mouse
         g.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
-        int x = mouse.x, y = mouse.y;
+        int x = mouse.x;
+        int y = mouse.y;
         g.drawLine(x, y - 10, x, y + 10);
         g.drawLine(x - 10, y, x + 10, y);
 

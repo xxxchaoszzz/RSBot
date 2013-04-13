@@ -22,7 +22,9 @@ public class BankLeather extends Node {
             Methods.s("Opening Bank");
             Bank.open();
             Timer t = new Timer(1000);
-            while (!Widgets.get(762).validate() && t.isRunning()) Task.sleep(50);
+            while (!Widgets.get(762).validate() && t.isRunning()) {
+                Task.sleep(50);
+            }
         }
         if (Widgets.get(762).validate()) {
             Methods.s("Depositing Leather");
