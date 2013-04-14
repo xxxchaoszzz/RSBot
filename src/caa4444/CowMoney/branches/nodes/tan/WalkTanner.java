@@ -24,12 +24,14 @@ public class WalkTanner extends Node {
         Timer t = new Timer(500);
         while (!Players.getLocal().isMoving() && Walking.getDestination().distance(Players.getLocal().getLocation()) > 6 &&
                 NPCs.getNearest(Const.ID_TANNER) == null || NPCs.getNearest(Const.ID_TANNER) != null
-                && NPCs.getNearest(Const.ID_TANNER).getLocation().distance(Players.getLocal()) > 4 && t.isRunning())
+                && NPCs.getNearest(Const.ID_TANNER).getLocation().distance(Players.getLocal()) > 4 && t.isRunning()) {
             Task.sleep(500);
+        }
         t = new Timer(2000);
         while (Players.getLocal().isMoving() && Walking.getDestination().distance(Players.getLocal().getLocation()) > 6 &&
                 NPCs.getNearest(Const.ID_TANNER) == null || NPCs.getNearest(Const.ID_TANNER) != null
-                && NPCs.getNearest(Const.ID_TANNER).getLocation().distance(Players.getLocal()) > 4 && t.isRunning())
+                && NPCs.getNearest(Const.ID_TANNER).getLocation().distance(Players.getLocal()) > 4 && t.isRunning()) {
             Task.sleep(500);
+        }
     }
 }

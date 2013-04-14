@@ -26,14 +26,14 @@ public class Methods {
         switch (i) {
             case 1:
                 if (SceneEntities.getAt(3175, 3368).interact("Mine", "Iron ore rock")) {
-                    Methods.s("Mining Iron");
+                    s("Mining Iron");
                     Task.sleep(200, 300);
                     SceneEntities.getAt(3175, 3366).hover();
                 }
                 break;
             case 0:
                 if (SceneEntities.getAt(3175, 3366).interact("Mine", "Iron ore rock")) {
-                    Methods.s("Mining Iron");
+                    s("Mining Iron");
                     Task.sleep(200, 300);
                     SceneEntities.getAt(3175, 3368).hover();
                 }
@@ -43,23 +43,21 @@ public class Methods {
     }
 
     public static void sleep(int i) {
-        Timer wait;
+        final Timer WAIT = new Timer(2000);
         switch (i) {
             case 1:
-                while (SceneEntities.getAt(3175, 3368).getId() == 11956 && Players.getLocal().isIdle()) {
+                while (SceneEntities.getAt(3175, 3368).getId() == 11956 && Players.getLocal().isIdle() && WAIT.isRunning()) {
                     Task.sleep(50);
                 }
-                wait = new Timer(2000);
-                while (SceneEntities.getAt(3175, 3368).getId() == 11956 && !Players.getLocal().isIdle() && wait.isRunning()) {
+                while (SceneEntities.getAt(3175, 3368).getId() == 11956 && !Players.getLocal().isIdle() && WAIT.isRunning()) {
                     Task.sleep(50);
                 }
                 break;
             case 0:
-                while (SceneEntities.getAt(3175, 3366).getId() == 11955 && Players.getLocal().isIdle()) {
+                while (SceneEntities.getAt(3175, 3366).getId() == 11955 && Players.getLocal().isIdle() && WAIT.isRunning()) {
                     Task.sleep(50);
                 }
-                wait = new Timer(2000);
-                while (SceneEntities.getAt(3175, 3366).getId() == 11955 && !Players.getLocal().isIdle() && wait.isRunning()) {
+                while (SceneEntities.getAt(3175, 3366).getId() == 11955 && !Players.getLocal().isIdle() && WAIT.isRunning()) {
                     Task.sleep(50);
                 }
                 break;

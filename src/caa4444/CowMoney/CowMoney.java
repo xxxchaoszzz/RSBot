@@ -36,7 +36,7 @@ import java.util.List;
 @Manifest(authors = {"caa4444"}, name = "CowMoney", description = "Burthope cow killer/hide tanner", version = 1)
 public class CowMoney extends ActiveScript implements PaintListener {
 
-    public static Tree jobContainer = null;
+    public static Tree jobContainer;
     private final List<Node> jobsCollection = Collections.synchronizedList(new ArrayList<Node>());
     static Client client;
     private final RenderingHints ANTIALIASING = new RenderingHints(
@@ -61,11 +61,11 @@ public class CowMoney extends ActiveScript implements PaintListener {
             client = Context.client();
         }
         if (jobContainer != null) {
-            Node job = jobContainer.state();
-            if (job != null) {
-                jobContainer.set(job);
-                getContainer().submit(job);
-                job.join();
+            final Node JOB = jobContainer.state();
+            if (JOB != null) {
+                jobContainer.set(JOB);
+                getContainer().submit(JOB);
+                JOB.join();
             }
         }
         return 100;
@@ -76,8 +76,8 @@ public class CowMoney extends ActiveScript implements PaintListener {
 
     @Override
     public void onRepaint(Graphics g1) {
-        Point MOUSE = Mouse.getLocation();
-        Graphics2D G = (Graphics2D) g1;
+        final Point MOUSE = Mouse.getLocation();
+        final Graphics2D G = (Graphics2D) g1;
         G.setRenderingHints(ANTIALIASING);
 
         // -- Fill top bar
@@ -92,10 +92,10 @@ public class CowMoney extends ActiveScript implements PaintListener {
 
         // -- Mouse
         G.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
-        int x = MOUSE.x;
-        int y = MOUSE.y;
-        G.drawLine(x, y - 10, x, y + 10);
-        G.drawLine(x - 10, y, x + 10, y);
+        final int X = MOUSE.x;
+        final int Y = MOUSE.y;
+        G.drawLine(X, Y - 10, X, Y + 10);
+        G.drawLine(X - 10, Y, X + 10, Y);
 
         // -- Status and label
         G.setColor(Color.WHITE);
@@ -103,10 +103,10 @@ public class CowMoney extends ActiveScript implements PaintListener {
         G.drawString("CowMoney by caa4444", 5, 372);
 
 
-        Graphics2D g2 = (Graphics2D) G.create();
-        g2.setColor(Color.BLACK);
-        g2.setFont(new Font("Garamond", Font.PLAIN, 14));
-        g2.drawString("Status: " + Variables.status, 310, 522);
+        final Graphics2D G2 = (Graphics2D) G.create();
+        G2.setColor(Color.BLACK);
+        G2.setFont(new Font("Garamond", Font.PLAIN, 14));
+        G2.drawString("Status: " + Variables.status, 310, 522);
     }
 
     public final synchronized void provide(Node... jobs) {

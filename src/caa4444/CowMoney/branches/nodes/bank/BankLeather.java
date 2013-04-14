@@ -21,8 +21,8 @@ public class BankLeather extends Node {
         if (!Widgets.get(762).validate()) {
             Methods.s("Opening Bank");
             Bank.open();
-            Timer t = new Timer(1000);
-            while (!Widgets.get(762).validate() && t.isRunning()) {
+            final Timer T = new Timer(1000);
+            while (!Widgets.get(762).validate() && T.isRunning()) {
                 Task.sleep(50);
             }
         }
