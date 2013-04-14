@@ -32,9 +32,9 @@ public class hideCraft extends ActiveScript implements PaintListener,
             RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     public void onStart() {
-        GUI gui = new GUI();
-        gui.setVisible(true);
-        while (gui.isVisible()) {
+        final GUI GUI = new GUI();
+        GUI.setVisible(true);
+        while (GUI.isVisible()) {
             Task.sleep(100);
         }
         Task.sleep(100);
@@ -54,11 +54,11 @@ public class hideCraft extends ActiveScript implements PaintListener,
                 client = Context.client();
             }
             if (jobContainer != null) {
-                Node job = jobContainer.state();
-                if (job != null) {
-                    jobContainer.set(job);
-                    getContainer().submit(job);
-                    job.join();
+                final Node JOB = jobContainer.state();
+                if (JOB != null) {
+                    jobContainer.set(JOB);
+                    getContainer().submit(JOB);
+                    JOB.join();
                 }
             } else {
                 jobContainer = new Tree(new Node[]{new MakeLeather(), new BankStuff()});
@@ -70,42 +70,42 @@ public class hideCraft extends ActiveScript implements PaintListener,
 
     @Override
     public void onRepaint(Graphics g1) {
-        Point mouse = Mouse.getLocation();
-        Graphics2D g = (Graphics2D) g1;
-        g.setRenderingHints(antialiasing);
+        final Point MOUSE = Mouse.getLocation();
+        final Graphics2D G = (Graphics2D) g1;
+        G.setRenderingHints(antialiasing);
 
 
         // -- Fill top bar
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, (int) Game.getDimensions().getWidth(), 50);
+        G.setColor(Color.BLACK);
+        G.fillRect(0, 0, (int) Game.getDimensions().getWidth(), 50);
 
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 11));
-        g.drawString("Run Time: " + Variables.timer.toElapsedString(), 3, 12);
-        g.drawString("Making: " + Variables.i.getITEM_NAME(), 3, 25);
-        g.drawString("Crafting Level: " + Skills.getLevel(Skills.CRAFTING) + "/" + Variables.startingLevel,
+        G.setColor(Color.WHITE);
+        G.setFont(new Font("Arial", Font.BOLD, 11));
+        G.drawString("Run Time: " + Variables.timer.toElapsedString(), 3, 12);
+        G.drawString("Making: " + Variables.i.getITEM_NAME(), 3, 25);
+        G.drawString("Crafting Level: " + Skills.getLevel(Skills.CRAFTING) + "/" + Variables.startingLevel,
                 210, 12);
-        g.drawString("Crafting Experience Gained (hr): " + Variables.xpGain + " (" + Variables.xpHour + ")", 420, 12);
-        g.drawString("Items Made (hr): " + Variables.itemsMade + " (" + Variables.itemHour + ")",
+        G.drawString("Crafting Experience Gained (hr): " + Variables.xpGain + " (" + Variables.xpHour + ")", 420, 12);
+        G.drawString("Items Made (hr): " + Variables.itemsMade + " (" + Variables.itemHour + ")",
                 210, 25);
-        g.drawString("TTL: " + Variables.TTL,
+        G.drawString("TTL: " + Variables.TTL,
                 420, 25);
         // -- Mouse
-        g.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
-        int x = mouse.x;
-        int y = mouse.y;
-        g.drawLine(x, y - 10, x, y + 10);
-        g.drawLine(x - 10, y, x + 10, y);
+        G.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
+        final int X = MOUSE.x;
+        final int Y = MOUSE.y;
+        G.drawLine(X, Y - 10, X, Y + 10);
+        G.drawLine(X - 10, Y, X + 10, Y);
 
         // -- Status and label
-        g.setColor(Color.PINK);
-        g.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
-        g.drawString("Hard Leather Sweatshop by caa4444", 5, 372);
+        G.setColor(Color.PINK);
+        G.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
+        G.drawString("Hard Leather Sweatshop by caa4444", 5, 372);
 
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setColor(Color.BLUE);
-        g2.setFont(new Font("Garamond", Font.PLAIN, 14));
-        g2.drawString("Status: " + Variables.status, 310, 522);
+        final Graphics2D G2 = (Graphics2D) G.create();
+        G2.setColor(Color.BLUE);
+        G2.setFont(new Font("Garamond", Font.PLAIN, 14));
+        G2.drawString("Status: " + Variables.status, 310, 522);
 
     }
 
