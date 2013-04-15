@@ -1,10 +1,10 @@
-package caa4444.hidecraft;
+package caa4444.ashcollector;
 
-import caa4444.hidecraft.misc.Const;
-import caa4444.hidecraft.misc.Variables;
-import caa4444.hidecraft.nodes.BankStuff;
-import caa4444.hidecraft.nodes.Loop;
-import caa4444.hidecraft.nodes.MakeLeather;
+import caa4444.ashcollector.misc.Const;
+import caa4444.ashcollector.misc.Variables;
+import caa4444.ashcollector.nodes.BankStuff;
+import caa4444.ashcollector.nodes.Loop;
+import caa4444.ashcollector.nodes.MakeLeather;
 import org.powerbot.core.event.events.MessageEvent;
 import org.powerbot.core.event.listeners.MessageListener;
 import org.powerbot.core.event.listeners.PaintListener;
@@ -22,8 +22,8 @@ import org.powerbot.game.client.Client;
 
 import java.awt.*;
 
-@Manifest(authors = {"caa4444"}, name = "Hard Leather Sweatshop", description = "Crafts Hard leather items, start with thread in inventory", version = 1)
-public class HideCraft extends ActiveScript implements PaintListener,
+@Manifest(authors = {"caa4444"}, name = "Ash Collector", description = "Burns logs and collects ashes for profit", version = 1)
+public class AshCollect extends ActiveScript implements PaintListener,
         MessageListener {
 
     public static Tree jobContainer;
@@ -82,11 +82,11 @@ public class HideCraft extends ActiveScript implements PaintListener,
         G.setColor(Color.WHITE);
         G.setFont(new Font("Arial", Font.BOLD, 11));
         G.drawString("Run Time: " + Variables.timer.toElapsedString(), 3, 12);
-        G.drawString("Making: " + Variables.i.getITEM_NAME(), 3, 25);
-        G.drawString("Crafting Level: " + Skills.getLevel(Skills.CRAFTING) + "/" + Variables.startingLevel,
+        G.drawString("Burning: " + Variables.i.getITEM_NAME(), 3, 25);
+        G.drawString("Firemaking Level: " + Skills.getLevel(Skills.FIREMAKING) + "/" + Variables.startingLevel,
                 210, 12);
-        G.drawString("Crafting Experience Gained (hr): " + Variables.xpGain + " (" + Variables.xpHour + ")", 420, 12);
-        G.drawString("Items Made (hr): " + Variables.itemsMade + " (" + Variables.itemHour + ")",
+        G.drawString("Firemaking Experience Gained (hr): " + Variables.xpGain + " (" + Variables.xpHour + ")", 420, 12);
+        G.drawString("Ashes Collected (hr): " + Variables.itemsMade + " (" + Variables.itemHour + ")",
                 210, 25);
         G.drawString("TTL: " + Variables.TTL,
                 420, 25);
@@ -100,7 +100,7 @@ public class HideCraft extends ActiveScript implements PaintListener,
         // -- Status and label
         G.setColor(Color.PINK);
         G.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
-        G.drawString("Hard Leather Sweatshop by caa4444", 5, 372);
+        G.drawString("Ash Collector by caa4444", 5, 372);
 
         final Graphics2D G2 = (Graphics2D) G.create();
         G2.setColor(Color.BLUE);
