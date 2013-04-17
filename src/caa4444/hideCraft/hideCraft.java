@@ -22,7 +22,8 @@ import org.powerbot.game.client.Client;
 
 import java.awt.*;
 
-@Manifest(authors = {"caa4444"}, name = "Hard Leather Sweatshop", description = "Crafts Hard leather items, start with thread in inventory", version = 1)
+@Manifest(authors = {"caa4444"}, name = "Hard Leather Sweatshop",
+        description = "Crafts Hard leather items, start with thread in inventory", version = 1.01)
 public class HideCraft extends ActiveScript implements PaintListener,
         MessageListener {
 

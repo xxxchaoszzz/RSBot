@@ -1,5 +1,6 @@
 package caa4444.cowmoney.misc;
 
+import org.powerbot.game.api.methods.input.Mouse;
 import org.powerbot.game.api.methods.tab.Inventory;
 import org.powerbot.game.api.util.net.GeItem;
 import org.powerbot.game.api.wrappers.Tile;
@@ -9,6 +10,9 @@ public class Variables {
     public static int profit;
     public static int hidesR;
     public static int profitR;
+    public static boolean guiIsDone;
+    public static boolean killCows;
+    public static Mouse.Speed speed = Mouse.Speed.VERY_FAST;
     public static int hidePrice = GeItem.lookup(1743).getPrice() - 3;
     public static String status = "";
     public static Tile cowTile = Methods.randomTile(Const.COW_WALK_AREA);

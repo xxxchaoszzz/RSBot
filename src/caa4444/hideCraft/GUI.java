@@ -30,6 +30,7 @@ public class GUI extends JFrame {
 
         options.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         options.setLayoutOrientation(JList.VERTICAL);
+        options.setSelectedIndex(1);
 
         label1.setFont(new Font("Comic Sans MS", Font.ITALIC, 11));
 

@@ -3,8 +3,8 @@ package caa4444.ashcollector;
 import caa4444.ashcollector.misc.Const;
 import caa4444.ashcollector.misc.Variables;
 import caa4444.ashcollector.nodes.BankStuff;
+import caa4444.ashcollector.nodes.BurnLogs;
 import caa4444.ashcollector.nodes.Loop;
-import caa4444.ashcollector.nodes.MakeLeather;
 import org.powerbot.core.event.events.MessageEvent;
 import org.powerbot.core.event.listeners.MessageListener;
 import org.powerbot.core.event.listeners.PaintListener;
@@ -15,12 +15,15 @@ import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
 import org.powerbot.game.api.methods.Game;
 import org.powerbot.game.api.methods.input.Mouse;
+import org.powerbot.game.api.methods.interactive.Players;
+import org.powerbot.game.api.methods.node.SceneEntities;
 import org.powerbot.game.api.methods.tab.Skills;
 import org.powerbot.game.api.methods.widget.WidgetCache;
 import org.powerbot.game.bot.Context;
 import org.powerbot.game.client.Client;
 
 import java.awt.*;
+import java.util.Arrays;
 
 @Manifest(authors = {"caa4444"}, name = "Ash Collector", description = "Burns logs and collects ashes for profit", version = 1)
 public class AshCollect extends ActiveScript implements PaintListener,
@@ -61,7 +64,7 @@ public class AshCollect extends ActiveScript implements PaintListener,
                     JOB.join();
                 }
             } else {
-                jobContainer = new Tree(new Node[]{new MakeLeather(), new BankStuff()});
+                jobContainer = new Tree(new Node[]{new BurnLogs(), new BankStuff()});
             }
         }
         return 300;
@@ -82,7 +85,7 @@ public class AshCollect extends ActiveScript implements PaintListener,
         G.setColor(Color.WHITE);
         G.setFont(new Font("Arial", Font.BOLD, 11));
         G.drawString("Run Time: " + Variables.timer.toElapsedString(), 3, 12);
-        G.drawString("Burning: " + Variables.i.getITEM_NAME(), 3, 25);
+        G.drawString("Burning: " + Variables.logType.getITEM_NAME(), 3, 25);
         G.drawString("Firemaking Level: " + Skills.getLevel(Skills.FIREMAKING) + "/" + Variables.startingLevel,
                 210, 12);
         G.drawString("Firemaking Experience Gained (hr): " + Variables.xpGain + " (" + Variables.xpHour + ")", 420, 12);
@@ -111,9 +114,10 @@ public class AshCollect extends ActiveScript implements PaintListener,
 
     @Override
     public void messageReceived(MessageEvent msg) {
-        if (msg.getMessage().contains("make this item.")) {
-            Variables.itemsMade++;
-            Const.TIMER.reset();
+        if (msg.getMessage().contains("cant light fire")) {
+            if (Arrays.binarySearch(Const.FIRE_IDS, SceneEntities.getAt(Players.getLocal()).getId()) < 0) {
+                Variables.cannotBurn.addTile(Players.getLocal().getLocation());
+            }
         }
     }
 

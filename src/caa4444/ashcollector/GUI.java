@@ -57,7 +57,7 @@ public class GUI extends JFrame {
     }
 
     public void startScript() {
-        Variables.i = Logs.values()[options.getSelectedIndex()];
+        Variables.logType = Logs.values()[options.getSelectedIndex()];
         dispose();
         Variables.guiIsDone = true;
         Variables.timer = new Timer(1000);

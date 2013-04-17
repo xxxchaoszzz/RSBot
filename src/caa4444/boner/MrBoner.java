@@ -59,8 +59,8 @@ public class MrBoner extends ActiveScript implements PaintListener,
                 JOB.join();
             }
         } else {
-            final Node[] NODES = {new WalkBones(), new RotateBones(), new GatherBones()};
-            jobs.add(new BoneZ(NODES));
+            //final Node[] NODES = {new WalkBones(), new RotateBones(), new GatherBones()};
+            jobs.add(new BoneZ(new Node[]{new WalkBones(), new RotateBones(), new GatherBones()}));
             jobs.add(new BuryBones());
             jobContainer = new Tree(jobs.toArray(new Node[jobs.size()]));
         }

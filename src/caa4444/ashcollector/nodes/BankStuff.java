@@ -22,7 +22,7 @@ public class BankStuff extends Node {
     public void execute() {
         if (Widgets.get(762).validate()) {
             Methods.s("Banking");
-            if (Inventory.contains(Variables.i.getITEM_ID()) && Bank.deposit(Variables.i.getITEM_ID(), Bank.Amount.ALL)) {
+            if (Inventory.contains(Variables.logType.getITEM_ID()) && Bank.deposit(Variables.logType.getITEM_ID(), Bank.Amount.ALL)) {
                 if (Inventory.getCount() > Inventory.getCount(1734)) {
                     LinkedHashSet<Integer> IDs = new LinkedHashSet<Integer>();
                     for (Item i : Inventory.getAllItems(false)) {
