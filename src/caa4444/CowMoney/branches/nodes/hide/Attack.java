@@ -23,19 +23,19 @@ public class Attack extends Node {
 
     @Override
     public void execute() {
-        final NPC NPC = NPCs.getNearest(new Filter<NPC>() {
+        final NPC npc = NPCs.getNearest(new Filter<NPC>() {
             public boolean accept(final NPC npc) {
                 return npc.getName().toLowerCase().contains("cow") && npc.getHealthPercent() > 0
                         && (!npc.isInCombat() || npc.getInteracting().equals(Players.getLocal()));
             }
         });
-        if (NPC != null) {
-            if (!NPC.isOnScreen() && Methods.turnTo(NPC, 20)) {
-                Methods.s("Turning to " + NPC.getName());
+        if (npc != null) {
+            if (!npc.isOnScreen() && Methods.turnTo(npc, 20)) {
+                Methods.s("Turning to " + npc.getName());
                 return;
             }
-            if (NPC.interact("Attack", NPC.getName())) {
-                Methods.s("Attacking " + NPC.getName());
+            if (npc.interact("Attack", npc.getName())) {
+                Methods.s("Attacking " + npc.getName());
                 Timer wait = new Timer(600);
                 while (Players.getLocal().getInteracting() == null && wait.isRunning()) {
                     Task.sleep(50);

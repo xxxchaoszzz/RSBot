@@ -33,83 +33,92 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Manifest(authors = {"caa4444"}, name = "CowMoney", description = "Burthope cow killer/hide tanner", version = 1)
-public class CowMoney extends ActiveScript implements PaintListener {
+@Manifest(authors = {"caa4444"}, name = "CowMoney", description = "Burthorpe cow killer/hide tanner", version = 1.12, singleinstance = true)
+class CowMoney extends ActiveScript implements PaintListener {
 
-    public static Tree jobContainer;
+    private static Tree jobContainer;
     private final List<Node> jobsCollection = Collections.synchronizedList(new ArrayList<Node>());
-    static Client client;
-    private final RenderingHints ANTIALIASING = new RenderingHints(
+    private static Client client;
+    private final RenderingHints antialiasing = new RenderingHints(
             RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     public void onStart() {
+        final GUI gui = new GUI();
+        gui.setVisible(true);
+        while (gui.isVisible()) {
+            Task.sleep(100);
+        }
         Task.sleep(100);
-        Mouse.setSpeed(Mouse.Speed.VERY_FAST);
+        Mouse.setSpeed(Variables.speed);
         getContainer().submit(new StopScript());
-        provide(new Branch[]{new Hide(new Node[]{new WalkCows(), new Collect(), new Attack()}),
-                new Tan(new Node[]{new WalkTanner(), new TanHides()}), new Bank(new Node[]{new WalkBank(), new BankLeather()})});
+        final Hide hide = Variables.killCows ? new Hide(new Node[]{new WalkCows(), new Collect(), new Attack()})
+                : new Hide(new Node[]{new WalkCows(), new Collect()});
+        provide(new Branch[]{hide, new Tan(new Node[]{new WalkTanner(), new TanHides()}),
+                new Bank(new Node[]{new WalkBank(), new BankLeather()})});
     }
 
     @Override
     public int loop() {
-        if (Game.getClientState() != Game.INDEX_MAP_LOADED) {
-            return 2500;
-        }
-        if (client != Context.client()) {
-            WidgetCache.purge();
-            Context.get().getEventManager().addListener(this);
-            client = Context.client();
-        }
-        if (jobContainer != null) {
-            final Node JOB = jobContainer.state();
-            if (JOB != null) {
-                jobContainer.set(JOB);
-                getContainer().submit(JOB);
-                JOB.join();
+        if (Variables.guiIsDone) {
+            if (Game.getClientState() != Game.INDEX_MAP_LOADED) {
+                return 2500;
+            }
+            if (client != Context.client()) {
+                WidgetCache.purge();
+                Context.get().getEventManager().addListener(this);
+                client = Context.client();
+            }
+            if (jobContainer != null) {
+                final Node job = jobContainer.state();
+                if (job != null) {
+                    jobContainer.set(job);
+                    getContainer().submit(job);
+                    job.join();
+                }
             }
         }
         return 100;
     }
 
-    final NumberFormat DF = DecimalFormat.getInstance();
-    final Dimension GAME = Game.getDimensions();
+    private final NumberFormat df = DecimalFormat.getInstance();
+    private final Dimension game = Game.getDimensions();
 
     @Override
     public void onRepaint(Graphics g1) {
-        final Point MOUSE = Mouse.getLocation();
-        final Graphics2D G = (Graphics2D) g1;
-        G.setRenderingHints(ANTIALIASING);
+        final Point mouse = Mouse.getLocation();
+        final Graphics2D g = (Graphics2D) g1;
+        g.setRenderingHints(antialiasing);
 
         // -- Fill top bar
-        G.setColor(Color.BLACK);
-        G.fillRect(0, 0, GAME.width, 50);
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, game.width, 50);
 
-        G.setColor(Color.GRAY);
-        G.setFont(new Font("Arial", Font.BOLD, 11));
-        G.drawString("Run Time: " + Const.TIMER.toElapsedString(), 3, 12);
-        G.drawString("Hides Collected (hr): " + DF.format(Variables.hidesR) + " (" + DF.format(Methods.getPerHour(Variables.hidesR)) + ")", 210, 12);
-        G.drawString("Profit (hr): " + DF.format(Variables.profitR) + " (" + DF.format(Methods.getPerHour(Variables.profitR)) + ")", 420, 12);
+        g.setColor(Color.GRAY);
+        g.setFont(new Font("Arial", Font.BOLD, 11));
+        g.drawString("Run Time: " + Const.TIMER.toElapsedString(), 3, 12);
+        g.drawString("Hides Collected (hr): " + df.format(Variables.hidesR) + " (" + df.format(Methods.getPerHour(Variables.hidesR)) + ")", 210, 12);
+        g.drawString("Profit (hr): " + df.format(Variables.profitR) + " (" + df.format(Methods.getPerHour(Variables.profitR)) + ")", 420, 12);
 
         // -- Mouse
-        G.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
-        final int X = MOUSE.x;
-        final int Y = MOUSE.y;
-        G.drawLine(X, Y - 10, X, Y + 10);
-        G.drawLine(X - 10, Y, X + 10, Y);
+        g.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
+        final int x = mouse.x;
+        final int y = mouse.y;
+        g.drawLine(x, y - 10, x, y + 10);
+        g.drawLine(x - 10, y, x + 10, y);
 
         // -- Status and label
-        G.setColor(Color.WHITE);
-        G.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
-        G.drawString("CowMoney by caa4444", 5, 372);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
+        g.drawString("CowMoney by caa4444", 5, 372);
 
 
-        final Graphics2D G2 = (Graphics2D) G.create();
-        G2.setColor(Color.BLACK);
-        G2.setFont(new Font("Garamond", Font.PLAIN, 14));
-        G2.drawString("Status: " + Variables.status, 310, 522);
+        final Graphics2D g2 = (Graphics2D) g.create();
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("Garamond", Font.PLAIN, 14));
+        g2.drawString("Status: " + Variables.status, 310, 522);
     }
 
-    public final synchronized void provide(Node... jobs) {
+    final synchronized void provide(Node... jobs) {
         for (Node job : jobs) {
             if (!jobsCollection.contains(job)) {
                 jobsCollection.add(job);

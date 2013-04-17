@@ -8,7 +8,7 @@ import org.powerbot.game.api.methods.Widgets;
 import org.powerbot.game.api.methods.interactive.Players;
 import org.powerbot.game.api.methods.tab.Inventory;
 
-public class StopScript extends LoopTask {
+class StopScript extends LoopTask {
 
     @Override
     public int loop() {
