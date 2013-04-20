@@ -24,13 +24,13 @@ public class BankStuff extends Node {
             Methods.s("Banking");
             if (Inventory.contains(Variables.i.getITEM_ID()) && Bank.deposit(Variables.i.getITEM_ID(), Bank.Amount.ALL)) {
                 if (Inventory.getCount() > Inventory.getCount(1734)) {
-                    LinkedHashSet<Integer> IDs = new LinkedHashSet<Integer>();
+                    final LinkedHashSet<Integer> ids = new LinkedHashSet<Integer>();
                     for (Item i : Inventory.getAllItems(false)) {
                         if (i.getId() != 1734 && i.getId() != 1743) {
-                            IDs.add(i.getId());
+                            ids.add(i.getId());
                         }
                     }
-                    for (Integer i : IDs) {
+                    for (Integer i : ids) {
                         if (Bank.deposit(i, Bank.Amount.ALL)) {
                             Task.sleep(80);
                         }
@@ -41,11 +41,11 @@ public class BankStuff extends Node {
                 Methods.stopScript("Out of Leather");
                 return;
             }
-            Bank.withdraw(1743, Bank.Amount.ALL);
-            Bank.close();
-            Variables.timer.reset();
-            while (Widgets.get(762).validate() && Variables.timer.isRunning()) {
-                Task.sleep(50);
+            if (Bank.withdraw(1743, Bank.Amount.ALL) && Bank.close()) {
+                Variables.timer.reset();
+                while (Widgets.get(762).validate() && Variables.timer.isRunning()) {
+                    Task.sleep(50);
+                }
             }
         } else {
             Methods.s("Opening Bank");

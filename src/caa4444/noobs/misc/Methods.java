@@ -67,47 +67,49 @@ public class Methods {
     }
 
     public static int getPerHour(int skill) {
-        return (int) ((xpGained(skill)) * 3600000D / Const.TIMER.getElapsed());
+        return (int) (xpGained(skill) * 3600000D / Variables.timer.getElapsed());
     }
 
     public static long TTL(int skill) {
         return getPerHour(skill) != 0 ? (long) ((double) Skills.getExperienceToLevel(skill, Skills.getLevel(skill) + 1) / (double) getPerHour(skill) * 3600000) : 0;
     }
 
-    public static boolean isOnScreen(NPC p) {
-        return new Rectangle(0, 50, 515, 260).contains(p.getCentralPoint());
+    public static boolean notOnScreen(NPC p) {
+        return !new Rectangle(0, 50, 515, 260).contains(p.getCentralPoint());
     }
 
-    public static boolean dragMouse(int x1, int y1, int x2, int y2) {
-        final org.powerbot.game.client.input.Mouse MOUSE = Context.client().getMouse();
-        final Component TARGET = Context.get().getLoader().getComponent(0);
+    private static boolean dragMouse(int x1, int y1, int x2, int y2) {
+        final org.powerbot.game.client.input.Mouse mouse = Context.client().getMouse();
+        final Component target = Context.get().getLoader().getComponent(0);
         Mouse.move(x1, y1);
-        MOUSE.sendEvent(
-                new MouseEvent(TARGET, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), 0, Mouse.getX(), Mouse.getY(), 1, false, MouseEvent.BUTTON2)
+        mouse.sendEvent(
+                new MouseEvent(target, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), 0, Mouse.getX(), Mouse.getY(), 1, false, MouseEvent.BUTTON2)
         );
         Mouse.move(x2, y2);
-        MOUSE.sendEvent(
-                new MouseEvent(TARGET, MouseEvent.MOUSE_RELEASED, System.currentTimeMillis(), 0, Mouse.getX(), Mouse.getY(), 1, false, MouseEvent.BUTTON2)
+        mouse.sendEvent(
+                new MouseEvent(target, MouseEvent.MOUSE_RELEASED, System.currentTimeMillis(), 0, Mouse.getX(), Mouse.getY(), 1, false, MouseEvent.BUTTON2)
         );
         return Mouse.getX() == x2 && Mouse.getY() == y2 && !Mouse.isPressed();
     }
 
     public static boolean turnTo(Locatable locatable, int degreesDeviation) {
-        final double DEGREES_PER_PIXEL_X = 0.35;
-        int degrees = Camera.getMobileAngle(locatable) % 360;
+        final double degreesPerPixelX = 0.35;
+        final int degrees = Camera.getMobileAngle(locatable) % 360;
         int angleTo = Camera.getAngleTo(degrees);
         while (Math.abs(angleTo) > degreesDeviation) {
             angleTo = Camera.getAngleTo(degrees);
-            int pixelsTo = (int) Math.abs(angleTo / DEGREES_PER_PIXEL_X)
-                    + Random.nextInt(-(int) (degreesDeviation / DEGREES_PER_PIXEL_X) + 1,
-                    (int) (degreesDeviation / DEGREES_PER_PIXEL_X) - 1);
-            if (pixelsTo > 450) pixelsTo = pixelsTo / 450 * 450;
-            int startY = Mouse.getY() < 255 && Mouse.getY() > 55 ? Random.nextInt(-25, 25) + Mouse.getY() : Random.nextInt(70, 240);
+            int pixelsTo = (int) Math.abs(angleTo / degreesPerPixelX)
+                    + Random.nextInt(-(int) (degreesDeviation / degreesPerPixelX) + 1,
+                    (int) (degreesDeviation / degreesPerPixelX) - 1);
+            if (pixelsTo > 450) {
+                pixelsTo = pixelsTo / 450 * 450;
+            }
+            final int startY = Mouse.getY() < 255 && Mouse.getY() > 55 ? Random.nextInt(-25, 25) + Mouse.getY() : Random.nextInt(70, 240);
             if (angleTo > degreesDeviation) {//right
-                int startX = (500 - pixelsTo) - Random.nextInt(0, 500 - pixelsTo - 10);
+                final int startX = 500 - pixelsTo - Random.nextInt(0, 500 - pixelsTo - 10);
                 dragMouse(startX, startY, startX + pixelsTo, startY + Random.nextInt(90, 121));
             } else if (angleTo < -degreesDeviation) {//left
-                int startX = (pixelsTo + 10) + Random.nextInt(0, 500 - pixelsTo + 10);
+                final int startX = pixelsTo + 10 + Random.nextInt(0, 500 - pixelsTo + 10);
                 dragMouse(startX, startY, startX - pixelsTo, startY + Random.nextInt(90, 121));
             }
         }

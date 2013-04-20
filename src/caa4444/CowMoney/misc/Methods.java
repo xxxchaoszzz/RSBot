@@ -10,6 +10,11 @@ import org.powerbot.game.bot.Context;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Methods {
 
@@ -67,5 +72,23 @@ public class Methods {
 
     public static Tile randomTile(Area a) {
         return a.getTileArray()[Random.nextInt(0, a.getTileArray().length)];
+    }
+
+    public static Map<Integer, Integer> getPrices(final int... ids) {
+        Map<Integer, Integer> map = new HashMap<>();
+        String add = "http://scriptwith.us/api/?return=text&item=";
+        for (int i = 0; i < ids.length; i++) {
+            add += i == ids.length - 1 ? ids[i] : ids[i] + ",";
+        }
+        try (final BufferedReader in = new BufferedReader(new InputStreamReader(
+                new URL(add).openConnection().getInputStream()))) {
+            final String line = in.readLine();
+            for (String s : line.split("[;]")) {
+                map.put(Integer.parseInt(s.split("[:]")[0]), Integer.parseInt(s.split("[:]")[1]));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
     }
 }

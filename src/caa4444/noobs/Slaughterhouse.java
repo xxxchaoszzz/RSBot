@@ -1,6 +1,5 @@
 package caa4444.noobs;
 
-import caa4444.noobs.misc.Const;
 import caa4444.noobs.misc.Methods;
 import caa4444.noobs.misc.Variables;
 import caa4444.noobs.nodes.Attack;
@@ -24,91 +23,99 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-@Manifest(authors = {"caa4444"}, name = "Slaughterhouse", description = "Powertraining on low level critters", version = 1)
+@Manifest(authors = {"caa4444"}, name = "Slaughterhouse",
+        description = "Aggressive AIO power-fighter. Put abilities on slots 2-7", version = 1.1)
 public class Slaughterhouse extends ActiveScript implements PaintListener {
 
-    public static Tree jobContainer;
-    public static Node[] jobs = {new Attack(), new Chain()};
-    static Client client;
-    private final RenderingHints ANTIALIASING = new RenderingHints(
+    private static Tree jobContainer;
+    private static final Node[] jobs = {new Attack(), new Chain()};
+    private static Client client;
+    private final RenderingHints antialiasing = new RenderingHints(
             RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     public void onStart() {
+        final GUI gui = new GUI();
+        gui.setVisible(true);
+        while (gui.isVisible()) {
+            sleep(100);
+        }
         Task.sleep(100);
         Mouse.setSpeed(Mouse.Speed.VERY_FAST);
     }
 
     @Override
     public int loop() {
-        if (Game.getClientState() != Game.INDEX_MAP_LOADED) {
-            return 2500;
-        }
-        if (client != Context.client()) {
-            WidgetCache.purge();
-            Context.get().getEventManager().addListener(this);
-            client = Context.client();
-        }
-        if (jobContainer != null) {
-            final Node JOB = jobContainer.state();
-            if (JOB != null) {
-                jobContainer.set(JOB);
-                getContainer().submit(JOB);
-                JOB.join();
+        if (Variables.guiIsDone) {
+            if (Game.getClientState() != Game.INDEX_MAP_LOADED) {
+                return 2500;
             }
-        } else {
-            jobContainer = new Tree(jobs);
-            getContainer().submit(new StopScript());
+            if (client != Context.client()) {
+                WidgetCache.purge();
+                Context.get().getEventManager().addListener(this);
+                client = Context.client();
+            }
+            if (jobContainer != null) {
+                final Node job = jobContainer.state();
+                if (job != null) {
+                    jobContainer.set(job);
+                    getContainer().submit(job);
+                    job.join();
+                }
+            } else {
+                jobContainer = new Tree(jobs);
+                getContainer().submit(new StopScript());
+            }
         }
         return 100;
     }
 
-    final NumberFormat DF = DecimalFormat.getInstance();
-    final Dimension GAME = Game.getDimensions();
+    private final NumberFormat df = DecimalFormat.getInstance();
+    private final Dimension game = Game.getDimensions();
 
     @Override
     public void onRepaint(Graphics g1) {
-        final Point MOUSE = Mouse.getLocation();
-        final Graphics2D G = (Graphics2D) g1;
-        G.setRenderingHints(ANTIALIASING);
+        final Point mouse = Mouse.getLocation();
+        final Graphics2D g = (Graphics2D) g1;
+        g.setRenderingHints(antialiasing);
 
         // -- Fill top bar
-        G.setColor(Color.BLACK);
-        G.fillRect(0, 0, GAME.width, 50);
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, game.width, 50);
 
-        G.setColor(Color.GRAY);
-        G.setFont(new Font("Arial", Font.BOLD, 11));
-        G.drawString("Run Time: " + Const.TIMER.toElapsedString(), 3, 12);
+        g.setColor(Color.GRAY);
+        g.setFont(new Font("Arial", Font.BOLD, 11));
+        g.drawString("Run Time: " + Variables.timer.toElapsedString(), 3, 12);
 
         int row = 0;
         for (int i = 0; i < skill.values().length; i++) {
             if (Methods.xpGained(skill.values()[i].getId()) > 0) {
-                G.drawString(
+                g.drawString(
                         String.format(skill.values()[i].getName() + " Level: %d/%d",
                                 Skills.getLevel(skill.values()[i].getId()), Methods.startLv(skill.values()[i].getId())),
                         123, 12 + 13 * row);
-                G.drawString(String.format(skill.values()[i].getName() + " Experience Gained (hr): %s (%s)",
-                        DF.format(Methods.xpGained(skill.values()[i].getId())), DF.format(Methods.getPerHour(skill.values()[i].getId()))), 273, 12 + 13 * row);
-                G.drawString(skill.values()[i].getName() + " TTL: " + Time.format(Methods.TTL(skill.values()[i].getId())), 583, 12 + 13 * row);
+                g.drawString(String.format(skill.values()[i].getName() + " Experience Gained (hr): %s (%s)",
+                        df.format(Methods.xpGained(skill.values()[i].getId())), df.format(Methods.getPerHour(skill.values()[i].getId()))), 273, 12 + 13 * row);
+                g.drawString(skill.values()[i].getName() + " TTL: " + Time.format(Methods.TTL(skill.values()[i].getId())), 583, 12 + 13 * row);
                 row++;
             }
         }
 
         // -- Mouse
-        G.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
-        final int X = MOUSE.x;
-        final int Y = MOUSE.y;
-        G.drawLine(X, Y - 10, X, Y + 10);
-        G.drawLine(X - 10, Y, X + 10, Y);
+        g.setColor(Mouse.isPressed() ? Color.YELLOW : Color.RED);
+        final int x = mouse.x;
+        final int y = mouse.y;
+        g.drawLine(x, y - 10, x, y + 10);
+        g.drawLine(x - 10, y, x + 10, y);
 
         // -- Status and label
-        G.setColor(Color.WHITE);
-        G.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
-        G.drawString("Slaughterhouse by caa4444", 5, 310);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, 15));
+        g.drawString("Slaughterhouse by caa4444", 5, 310);
 
-        final Graphics2D G2 = (Graphics2D) G.create();
-        G2.setColor(Color.BLACK);
-        G2.setFont(new Font("Garamond", Font.PLAIN, 14));
-        G2.drawString("Status: " + Variables.status, 310, 522);
+        final Graphics2D g2 = (Graphics2D) g.create();
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("Garamond", Font.PLAIN, 14));
+        g2.drawString("Status: " + Variables.status, 310, 522);
     }
 }
 

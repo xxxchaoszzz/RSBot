@@ -22,8 +22,11 @@ class StopScript extends LoopTask {
             Methods.stopScript("Low HP");
         }
         Variables.hidesR = Variables.hides + Inventory.getCount(1739);
-        Variables.profit = Variables.hidePrice * Variables.hides;
-        Variables.profitR = Variables.hidePrice * Variables.hidesR;
+        Variables.beefR = Variables.beef + Inventory.getCount(2132);
+        Variables.bonesR = Variables.bones + Inventory.getCount(526);
+        Variables.profitR = (Variables.prices.get(1743) - 3) * Variables.hidesR +
+                Variables.prices.get(526) * Variables.bonesR +
+                Variables.prices.get(2132) * Variables.beefR;
         return 300;
     }
 }

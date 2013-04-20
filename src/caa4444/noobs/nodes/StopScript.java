@@ -1,6 +1,5 @@
 package caa4444.noobs.nodes;
 
-import caa4444.noobs.misc.Const;
 import caa4444.noobs.misc.Methods;
 import caa4444.noobs.misc.Variables;
 import org.powerbot.core.script.job.LoopTask;
@@ -17,7 +16,7 @@ public class StopScript extends LoopTask {
             return 2500;
         }
         if (!Players.getLocal().isMoving() &&
-                Players.getLocal().getLocation().distance(Variables.startLoc) > 8 && NPCs.getNearest(Const.NPCS) == null) {
+                Players.getLocal().getLocation().distance(Variables.startLoc) > 8 && NPCs.getNearest(Variables.npcs) == null) {
             if (Walking.walk(Variables.startLoc)) {
                 Methods.s("Walking to StartLoc");
             } else {

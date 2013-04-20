@@ -2,6 +2,7 @@ package caa4444.noobs.nodes;
 
 import caa4444.noobs.misc.Const;
 import caa4444.noobs.misc.Methods;
+import caa4444.noobs.misc.Variables;
 import org.powerbot.core.script.job.Task;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.game.api.methods.Widgets;
@@ -28,7 +29,7 @@ public class Chain extends Node {
         if (Widgets.get(640, Const.COOLDOWN_CHILD[1]).getTextureId() == 14521 &&
                 Widgets.get(640, Const.ITEM_CHILD[1]).getTextColor() == 0xFFFFFF && NPCs.getLoaded(new Filter<NPC>() {
             public boolean accept(final NPC npc) {
-                for (final String n : Const.NPCS) {
+                for (final String n : Variables.npcs) {
                     if (n.toLowerCase().contains(npc.getName().toLowerCase())) {
                         return true;
                     }

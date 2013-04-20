@@ -10,8 +10,15 @@ public class Hide extends Branch {
         super(nodes);
     }
 
+    public static boolean looted;
+
     @Override
     public boolean branch() {
-        return !Inventory.isFull();
+        if (!Inventory.isFull()) {
+            looted = false;
+            return true;
+        }
+        return false;
     }
+
 }

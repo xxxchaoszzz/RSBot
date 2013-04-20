@@ -11,12 +11,12 @@ import caa4444.cowmoney.branches.nodes.hide.WalkCows;
 import caa4444.cowmoney.branches.nodes.tan.TanHides;
 import caa4444.cowmoney.branches.nodes.tan.WalkTanner;
 import caa4444.cowmoney.misc.Const;
+import caa4444.cowmoney.misc.Loots;
 import caa4444.cowmoney.misc.Methods;
 import caa4444.cowmoney.misc.Variables;
 import org.powerbot.core.event.listeners.PaintListener;
 import org.powerbot.core.script.ActiveScript;
 import org.powerbot.core.script.job.Task;
-import org.powerbot.core.script.job.state.Branch;
 import org.powerbot.core.script.job.state.Node;
 import org.powerbot.core.script.job.state.Tree;
 import org.powerbot.game.api.Manifest;
@@ -33,8 +33,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Manifest(authors = {"caa4444"}, name = "CowMoney", description = "Burthorpe cow killer/hide tanner", version = 1.12, singleinstance = true)
-class CowMoney extends ActiveScript implements PaintListener {
+@Manifest(authors = {"caa4444"}, name = "CowMoney", description = "AIO Burthorpe cow looter/hide tanner",
+        version = 1.25, singleinstance = false, vip = true)
+public class CowMoney extends ActiveScript implements PaintListener {
 
     private static Tree jobContainer;
     private final List<Node> jobsCollection = Collections.synchronizedList(new ArrayList<Node>());
@@ -51,10 +52,26 @@ class CowMoney extends ActiveScript implements PaintListener {
         Task.sleep(100);
         Mouse.setSpeed(Variables.speed);
         getContainer().submit(new StopScript());
-        final Hide hide = Variables.killCows ? new Hide(new Node[]{new WalkCows(), new Collect(), new Attack()})
-                : new Hide(new Node[]{new WalkCows(), new Collect()});
-        provide(new Branch[]{hide, new Tan(new Node[]{new WalkTanner(), new TanHides()}),
-                new Bank(new Node[]{new WalkBank(), new BankLeather()})});
+        final ArrayList<Node> hideBranch = new ArrayList<Node>();
+        hideBranch.add(new WalkCows());
+        for (Loots l : Variables.loots) {
+            if (l == Loots.Cowhides) {
+                Variables.tan = true;
+            }
+            hideBranch.add(new Collect(l.getITEM_ID()));
+        }
+        if (Variables.killCows) {
+            hideBranch.add(new Attack());
+        }
+        final Node[] lootItems = hideBranch.toArray(new Node[1]);
+
+        final Hide hide = new Hide(lootItems);
+        provide(hide);
+
+        if (Variables.tan) {
+            provide(new Tan(new Node[]{new WalkTanner(), new TanHides()}));
+        }
+        provide(new Bank(new Node[]{new WalkBank(), new BankLeather()}));
     }
 
     @Override
@@ -97,6 +114,8 @@ class CowMoney extends ActiveScript implements PaintListener {
         g.setFont(new Font("Arial", Font.BOLD, 11));
         g.drawString("Run Time: " + Const.TIMER.toElapsedString(), 3, 12);
         g.drawString("Hides Collected (hr): " + df.format(Variables.hidesR) + " (" + df.format(Methods.getPerHour(Variables.hidesR)) + ")", 210, 12);
+        g.drawString("Bones Collected (hr): " + df.format(Variables.bonesR) + " (" + df.format(Methods.getPerHour(Variables.bonesR)) + ")", 210, 25);
+        g.drawString("Raw Beef Collected (hr): " + df.format(Variables.beefR) + " (" + df.format(Methods.getPerHour(Variables.beefR)) + ")", 210, 38);
         g.drawString("Profit (hr): " + df.format(Variables.profitR) + " (" + df.format(Methods.getPerHour(Variables.profitR)) + ")", 420, 12);
 
         // -- Mouse
