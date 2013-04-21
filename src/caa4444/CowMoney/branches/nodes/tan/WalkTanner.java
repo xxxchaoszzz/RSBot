@@ -20,12 +20,11 @@ public class WalkTanner extends Node {
     public void execute() {
         Methods.s("Walking to Tanner");
         Walking.walk(Variables.tanTile);
-        Timer t = new Timer(500);
-        while (!Players.getLocal().isMoving() && Walking.getDestination().distance(Players.getLocal().getLocation()) > 6 &&
-                (NPCs.getNearest(Const.ID_TANNER) == null || NPCs.getNearest(Const.ID_TANNER).getLocation().distanceTo() > 4) && t.isRunning()) {
+        if (!Players.getLocal().isMoving() && Walking.getDestination().distance(Players.getLocal().getLocation()) > 6 &&
+                (NPCs.getNearest(Const.ID_TANNER) == null || NPCs.getNearest(Const.ID_TANNER).getLocation().distanceTo() > 4)) {
             Task.sleep(500);
         }
-        t = new Timer(2000);
+        final Timer t = new Timer(2000);
         while (Players.getLocal().isMoving() && Walking.getDestination().distance(Players.getLocal().getLocation()) > 6 &&
                 (NPCs.getNearest(Const.ID_TANNER) == null || NPCs.getNearest(Const.ID_TANNER).getLocation().distanceTo() > 4) && t.isRunning()) {
             Task.sleep(500);

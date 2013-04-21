@@ -29,9 +29,11 @@ public class BankLeather extends Node {
         }
         if (Widgets.get(762).validate()) {
             Methods.s("Depositing Leather");
-            Variables.bones += Inventory.getCount(526);
-            Variables.beef += Inventory.getCount(2132);
+            final int bones = Inventory.getCount(526);
+            final int beef = Inventory.getCount(2132);
             if (Bank.depositInventory()) {
+                Variables.bones += bones;
+                Variables.beef += beef;
                 Variables.cowTile = Methods.randomTile(Const.COW_WALK_AREA);
                 Variables.bankTile = Methods.randomTile(Const.BANK_AREA);
                 Variables.tanTile = Methods.randomTile(Const.TANNER_AREA);

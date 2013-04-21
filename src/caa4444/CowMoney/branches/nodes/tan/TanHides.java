@@ -28,7 +28,7 @@ public class TanHides extends Node {
                 Methods.turnTo(tanner, 20);
             }
             tanner.interact("Tan hide");
-            final Timer timer = new Timer(1000);
+            final Timer timer = new Timer(2500);
             while (!Widgets.get(1370).validate() && timer.isRunning()) {
                 Task.sleep(50);
             }

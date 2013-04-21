@@ -27,12 +27,13 @@ public class GUI extends JFrame {
         final Container pane = getContentPane();
 
         final GridBagConstraints c = new GridBagConstraints();
-        c.gridwidth = 1;
+        c.weighty = .75;
+        c.weightx = .75;
+        c.insets = new Insets(2, 2, 2, 2);
         c.fill = GridBagConstraints.BOTH;
-        c.weighty = 1;
 
         final JLabel mouseLabel = new JLabel(
-                "Select a Mouse Speed!");
+                "Select a mouse speed!");
         mouseLabel.setFont(new Font("Comic Sans MS", Font.ITALIC, 11));
         pane.add(mouseLabel, c);
 

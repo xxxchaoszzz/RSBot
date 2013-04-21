@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Manifest(authors = {"caa4444"}, name = "CowMoney", description = "AIO Burthorpe cow looter/hide tanner",
-        version = 1.25, singleinstance = false, vip = true)
+        version = 1.251, singleinstance = false, vip = true)
 public class CowMoney extends ActiveScript implements PaintListener {
 
     private static Tree jobContainer;
@@ -55,10 +55,10 @@ public class CowMoney extends ActiveScript implements PaintListener {
         final ArrayList<Node> hideBranch = new ArrayList<Node>();
         hideBranch.add(new WalkCows());
         for (Loots l : Variables.loots) {
-            if (l == Loots.Cowhides) {
+            if (l == Loots.COWHIDES) {
                 Variables.tan = true;
             }
-            hideBranch.add(new Collect(l.getITEM_ID()));
+            hideBranch.add(new Collect(l.getItemId()));
         }
         if (Variables.killCows) {
             hideBranch.add(new Attack());

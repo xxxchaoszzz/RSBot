@@ -1,17 +1,17 @@
 package caa4444.cowmoney.misc;
 
 public enum Loots {
-    Cowhides(1739),
-    Bones(526),
-    RawBeef(2132);
+    COWHIDES(1739),
+    BONES(526),
+    RAW_BEEF(2132);
 
-    private final int ITEM_ID;
+    private final int itemId;
 
     Loots(int iid) {
-        ITEM_ID = iid;
+        itemId = iid;
     }
 
-    public int getITEM_ID() {
-        return ITEM_ID;
+    public int getItemId() {
+        return itemId;
     }
 }
